@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:composition template="/admintheme/includes/horizontal/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{msg['title.rolePermission']}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:form id="form">
+                <p:growl id="growl" sticky="false" showDetail="false" />
+
+                <p:panel id="panelAddRole" header="#{msg['panelAddRole']}" style="margin-bottom: 10px;">
+                    <p:outputLabel for="newRole" value="#{msg['addRoleLabel']}" />
+                    &nbsp;
+                    <p:inputText id="newRole" value="#{rolePermissionController.newRoleName}" required="true" requiredMessage="#{msg['requiredMessage']}"/>
+                    &nbsp;
+                    <p:commandButton value="#{msg['saveBtn']}" actionListener="#{rolePermissionController.saveNewRole()}"
+                                     process=":form:panelAddRole" update="@form"/>
+                </p:panel>
+
+                <p:panel id="panelPermissionRole" header="#{msg['panelRole']}">
+                    <p:selectOneMenu id="role" value="#{rolePermissionController.selectedRoleID}">
+                        <f:selectItem itemLabel="#{msg['selectedRole']}" itemValue="#{null}" noSelectionOption="true" />
+                        <f:selectItems value="#{rolePermissionController.listRole}" var="list"
+                                       itemValue="#{list.id}" itemLabel="#{list.name}"/>
+                        <p:ajax listener="#{rolePermissionController.viewPermissionOnRole}" update=":form:panelPermissionRole"/>
+                    </p:selectOneMenu>
+                    &nbsp;&nbsp;
+                    <p:commandButton value="#{msg['saveBtn']}" actionListener="#{rolePermissionController.savePermissionOnRole()}"
+                                     process=":form:panelPermissionRole" update="@form" disabled="#{rolePermissionController.selectedRoleID==null}"/>
+                    &nbsp;
+                    <p:commandButton value="#{msg['deleteBtn']}" actionListener="#{rolePermissionController.deleteRole()}"
+                                     process=":form:panelPermissionRole" update="@form" disabled="#{rolePermissionController.selectedRoleID==null}">
+                        <p:confirm header="#{msg['confirmDeleteHeder']}" message="#{msg['confirmDeleteMsg']}" icon="ui-icon-alert" disabled="#{rolePermissionController.selectedRoleID==null}"/>
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" styleClass="widthControlledDialog noBorderHeader" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="#{msg['yesBtn']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="#{msg['noBtn']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <br/><br/><br/>
+                    <table>
+                        <tr>
+                            <td style="vertical-align: top;">
+                                <p:dataTable id="tableIn" var="per" value="#{rolePermissionController.listPermissionInRole}" emptyMessage="#{msg['noRecordsFound']}"
+                                             paginator="true" paginatorPosition="bottom"
+                                             paginatorTemplate="#{msg['table.rowsPerPage']} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} &nbsp;&nbsp; #{msg['table.jumpToPage']} &nbsp;&nbsp; {JumpToPageDropdown}"
+                                             currentPageReportTemplate="(#{msg['table.page']}: {currentPage}/{totalPages})" rowsPerPageTemplate="10,25,50" >
+                                    <p:column headerText="#{msg['permissionName']}" sortBy="#{per.name}" filterBy="#{per.name}" >
+                                        <p:outputLabel value="#{per.name}" styleClass="wordBreak" />
+                                    </p:column>
+                                    <p:column headerText="#{msg['permissionPage']}" sortBy="#{per.page}" filterBy="#{per.page}">
+                                        <p:outputLabel value="#{per.page}" styleClass="wordBreak" />
+                                    </p:column>
+                                    <p:column headerText="#{msg['permissionTitle']}" sortBy="#{msg[per.title]}" filterBy="#{msg[per.title]}">
+                                        <p:outputLabel value="#{msg[per.title]}" styleClass="wordBreak" />
+                                    </p:column>
+                                    <p:column width="40">
+                                        <p:commandButton title="#{msg['roleDelete']}" icon="ui-silk ui-silk-delete" actionListener="#{rolePermissionController.deletePermissionFromRole(per)}"
+                                                         styleClass="centerSomething" process=":form:panelPermissionRole" update=":form:panelPermissionRole"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                            <td>
+                                <!--<img src="#{resource['images/transfer_right_left.png']}" />-->
+                            </td>
+                            <td style="vertical-align: top;">
+                                <p:dataTable id="tableOut" var="per" value="#{rolePermissionController.listPermissionNotInRole}" emptyMessage="#{msg['noRecordsFound']}"
+                                             paginator="true" paginatorPosition="bottom"
+                                             paginatorTemplate="#{msg['table.rowsPerPage']} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} &nbsp;&nbsp; #{msg['table.jumpToPage']} &nbsp;&nbsp; {JumpToPageDropdown}"
+                                             currentPageReportTemplate="(#{msg['table.page']}: {currentPage}/{totalPages})" rowsPerPageTemplate="10,25,50" >
+                                    <p:column headerText="#{msg['permissionName']}" sortBy="#{per.name}" filterBy="#{per.name}">
+                                        <p:outputLabel value="#{per.name}" styleClass="wordBreak" />
+                                    </p:column>
+                                    <p:column headerText="#{msg['permissionPage']}" sortBy="#{per.page}" filterBy="#{per.page}">
+                                        <p:outputLabel value="#{per.page}" styleClass="wordBreak" />
+                                    </p:column>
+                                    <p:column headerText="#{msg['permissionTitle']}" sortBy="#{msg[per.title]}" filterBy="#{msg[per.title]}">
+                                        <p:outputLabel value="#{msg[per.title]}" styleClass="wordBreak" />
+                                    </p:column>
+                                    <p:column width="40">
+                                        <p:commandButton title="#{msg['roleAdd']}" icon="ui-silk ui-silk-add" actionListener="#{rolePermissionController.addPermissionOnRole(per)}"
+                                                         styleClass="centerSomething" process=":form:panelPermissionRole" update=":form:panelPermissionRole"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

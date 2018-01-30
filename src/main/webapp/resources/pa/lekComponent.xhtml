@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <!-- INTERFACE -->
+    <cc:interface   >
+        <cc:attribute name="selectedLek"
+                      shortDescription="Enter the controller for your crud here"
+                      required="true"  />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation id="componentImpl" >
+        <h:form id="viewForm">
+            <c:if test="#{cc.getValueExpression('selectedLek') ne null}">
+                <p:outputLabel rendered="#{not empty cc.attrs.title}" class="naslov">#{msg[cc.attrs.title]}</p:outputLabel>
+                <p:tabView>
+                    <p:tab id="PodatociZaLekot" title="#{msg['PodatociZaLekot']}" >
+
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="VidLek" value="#{msg['VidLek']}" />
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:inputText id="VidLek" value="#{cc.attrs.title.vidLek.naziv}"  size="100"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="tipLek" value="#{msg['tipLek']}" />
+
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:outputLabel id="tipLek" value="#{cc.attrs.title.tipLek}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="PodnositeBaranje" value="#{msg['PodnositeBaranje']}" />
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:inputText id="PodnositeBaranje" value="#{cc.attrs.komintent.naziv}"  size="100"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="imeLek" value="#{msg['ime_lek_kirilica']}" />
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:inputText id="imeLek" value="#{cc.attrs.ime_lek_kirilica}"  size="100"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="imeLekLatinica" value="#{msg['ime_lek_latinica']}" />
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:inputText id="imeLekLatinica" value="#{cc.attrs.ime_lek_latinica}"  size="100"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="ATCkod" value="#{msg['ATCkod']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel id="ATCkod" value="#{cc.attrs.atcKod.atcKod}" />
+
+
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel for="GenerickoIme" value="#{msg['GenerickoIme']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="GenerickoIme" value="#{cc.attrs.atcKod.generickoIme}"  size="50"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="Jacina" value="#{msg['Jacina']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="Jacina" value="#{cc.attrs.jacina}"  size="50"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel for="BarKod" value="#{msg['BarKod']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="BarKod" value="#{cc.attrs.eanKod}" size="50"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="FarmacevtskaForma" value="#{msg['FarmacevtskaForma']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="FarmacevtskaForma" value="#{cc.attrs.farmacevtskaForma.naziv}"  size="50"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectBooleanCheckbox id="PozLista" value="#{cc.attrs.pozLista}" />
+                                    <h:outputLabel for="PozLista"  value="#{msg['PozLista']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectBooleanCheckbox id="Brailovo" value="#{cc.attrs.brailovoPismo}" />
+                                    <h:outputLabel for="Brailovo"  value="#{msg['Brailovo']}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="KontaktPakuvanje" value="#{msg['KontaktPakuvanje']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="KontaktPakuvanje" value="#{cc.attrs.kontaktPakuvanje}"  size="50"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel for="nacinIzdavanje" value="#{msg['nacinIzdavanje']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel id="nacinIzdavanje" value="#{cc.attrs.nacinIzdavanje}"/>
+
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="Pakuvanje" value="#{msg['Pakuvanje']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputTextarea id="Pakuvanje" value="#{cc.attrs.kontaktPakuvanje}"  rows="5" cols="30"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel for="PosebniPredupreduvanja" value="#{msg['PosebniPredupreduvanja']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputTextarea id="PosebniPredupreduvanja" value="#{cc.attrs.posebniPredupreduvanja}" rows="5" cols="30"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="Sostav" value="#{msg['Sostav']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputTextarea id="Sostav" value="#{cc.attrs.sostav}"  rows="5" cols="30"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel for="Doziranje" value="#{msg['Doziranje']}" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputTextarea id="Doziranje" value="#{cc.attrs.doziranje}"  rows="5" cols="30"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="4">
+                                    <p:dataTable id="dataTableMestaProzivodstvo"
+                                                 value="#{cc.attrs.mestaProizvodstvo }" var="mesto"
+                                                 rows="3" rowsPerPageTemplate="5,10" >
+                                        <p:column headerText="#{msg['naziv']}">
+                                            <h:outputText value="#{mesto.komintent.naziv}"/>
+                                        </p:column>
+                                        <p:column headerText="#{msg['nazivMesto']}">
+                                            <h:outputText value="#{mesto.nazivMesto}" />
+                                        </p:column>
+
+
+                                    </p:dataTable>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <!--<p:commandButton value="Зачувај" icon="ui-icon-check"  ajax="false" onclick="PF('dlg').close();"  update="formPrim" />-->
+                    </p:tab>
+                    <p:tab title="#{msg['IstorijatPromeni']}"  >
+
+                    </p:tab>
+
+                </p:tabView>
+            </c:if>
+        </h:form>
+    </cc:implementation>
+</html>

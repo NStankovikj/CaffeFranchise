@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+
+
+<cc:interface componentType="meddramodule">
+    <cc:attribute name="selectionLLT" targets="" required="true" shortDescription="selected medra item in ctrl (controller -> llt_property)" />
+
+    <cc:attribute name="selectionPT" targets="" required="true" shortDescription="selected medra item in ctrl (controller -> pt_property)" />
+    <cc:attribute name="controller" targets="" shortDescription="controller -> must have 2 class properties [1.LowLevelTerm lowLevelTerm AND 2.PrefTerm prefTerm]" required="true"/>
+    <cc:attribute name="callbackMethod" shortDescription="method to call after closing pop-up window"
+                         method-signature="java.lang.String action()" />
+    <cc:attribute name="updateForm" shortDescription="form to update after closing pop-up dialog" targets="" required="true"  />
+    <cc:attribute name="dialogTitle" shortDescription="i think this is self explanatory" default="#{msg.chooseMeddra}"   />
+    <cc:attribute name="widgetid" shortDescription="i think this is self explanatory" default="meddraDialogPanel"/>
+</cc:interface>
+
+<cc:implementation>
+    <p:dialog  widgetVar="#{cc.attrs.widgetid}"
+               id="meddraDialogPanel"
+               width="80%"
+               dynamic="true"
+               closable="false"
+               closeOnEscape="false"
+               draggable="true"
+               height="600px"
+               position="center top"
+               header="#{cc.attrs.dialogTitle}"
+               resizable="true"
+               modal="true"
+               styleClass="widthControlledDialog noBorderHeader"
+               >
+        <p:ajax event="close"
+                listener="#{cc.attrs.callbackMethod}"
+                oncomplete="#{meddraController.clear()}"
+                update="#{p:component(cc.attrs.updateForm)} @form mainPanelSearch meddraSearchPanelFilter"
+        />
+        <!--update="#{p:component(cc.attrs.updateForm)}"-->
+        <p:commandButton onclick="PF('#{cc.attrs.widgetid}').hide()" styleClass="btn btn-success btn-sm pull-right" value="#{msg.OK}" />
+        <p:commandButton oncomplete="PF('#{cc.attrs.widgetid}').hide()" styleClass="btn btn-danger btn-sm pull-right" value="#{msg.cancel}" >
+            <p:ajax listener="#{cc.attrs.controller.setLowLevelTerm(null)}"/>
+            <p:ajax listener="#{cc.attrs.controller.setPrefTerm(null)}"/>
+        </p:commandButton>
+        <p:defaultCommand target="filterBtn" />
+        <div class="row">
+            <div class="container">
+                <div class="col-md-2">
+                    <p:selectOneMenu value="#{meddraController.filterBy}">
+                        <f:selectItem itemValue="soc" itemLabel="SOC"/>
+                        <f:selectItem itemValue="hlgt" itemLabel="HLGT"/>
+                        <f:selectItem itemValue="hlt" itemLabel="HLT"/>
+                        <f:selectItem itemValue="pt" itemLabel="PT"/>
+                        <f:selectItem noSelectionOption="true" itemValue="llt" itemLabel="LLT"/>
+                    </p:selectOneMenu>
+                </div>
+                <div class="col-md-2">
+                    <p:inputText value="#{meddraController.filterString}" >
+                        <f:validateLength minimum="4" />
+                    </p:inputText>
+                </div>
+                <div class="col-md-2">
+                    <p:commandButton actionListener="#{meddraController.filter()}"
+                                     id="filterBtn"
+                                     icon="fa fa-search"
+                                     value="#{msg.search}"
+                                     update="meddraSearchPanel meddraSearchPanelFilter mainPanelSearch"/>
+                </div>
+            </div>
+        </div>
+
+
+        <br/>
+        <p:outputPanel id="mainPanelSearch">
+            <p:outputLabel value="#{msg.selected}:"/>
+
+            <h:panelGroup id="meddraOutputLabel1">
+                <span style="margin-left: 5px; margin-right: 5px; border-radius: 5px; background-color: #2b72ae; color: white; padding: 5px 10px; display: #{cc.attrs.controller.lowLevelTerm == null ? 'none' : ''};">
+                <p:outputLabel  value="#{cc.attrs.controller.lowLevelTerm.lltName}" rendered="#{cc.attrs.controller.lowLevelTerm != null}" />
+                </span>
+                <span style="margin-left: 5px; margin-right: 5px; border-radius: 5px; background-color: #2b72ae; color: white; padding: 5px 10px; display: #{cc.attrs.controller.prefTerm == null ? 'none' : ''};">
+                <p:outputLabel  value="#{cc.attrs.controller.prefTerm.ptName}" rendered="#{cc.attrs.controller.prefTerm != null}" />
+                </span>
+                <br/>
+            </h:panelGroup>
+        <p:panel id="meddraSearchPanel" rendered="#{meddraController.filterString == null}">
+
+            <ui:repeat id="rep1" value="#{meddraController.socTerms}" var="soc">
+
+                <p:commandLink actionListener="#{meddraController.selectSocTerm(soc)}"
+                                 update=":#{component.namingContainer.parent.namingContainer.clientId}:meddraSearchPanel"
+                                 styleClass="btn btn-default btn-sm btn-expand"
+                                 value="+" /><p:outputLabel style="color:black;" value="[SOC] #{soc.socName}" /><br/>
+                <!--<c:if test="#{meddraController.selectedSocTerm.id.equals(soc.id)}">-->
+                <h:panelGroup id="pan1" rendered="#{meddraController.selectedSocTerm.id.equals(soc.id)}">
+
+                    <ui:repeat id="rep2" value="#{meddraController.hlgtPrefTerms}" var="hlgt" >
+                        <p:commandButton actionListener="#{meddraController.selectHlgtPrefTerm(hlgt)}" style="margin-left: 50px;" styleClass="btn btn-default btn-sm btn-expand"
+                                         update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraSearchPanel"
+                                         value="+" /><p:outputLabel style="color:red;" value="[HLGT] #{hlgt.hlgtName}" /><br/>
+
+                        <h:panelGroup rendered="#{meddraController.selectedHlgtPrefTerm.id.equals(hlgt.id)}">
+                           <ui:repeat value="#{meddraController.hltPrefTerms}" var="hlt">
+                               <p:commandButton actionListener="#{meddraController.selectHltPrefTerm(hlt)}" style="margin-left: 100px;" styleClass="btn btn-default btn-sm btn-expand"
+                                                update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraSearchPanel" value="+" />
+                               <p:outputLabel style="color:blue;" value="[HLT] #{hlt.hltName}" /><br/>
+
+                               <h:panelGroup rendered="#{meddraController.selectedHltPrefTerm.id.equals(hlt.id)}" >
+                                    <ui:repeat value="#{meddraController.prefTerms}" var="pt">
+                                        <p:commandButton actionListener="#{meddraController.selectPrefTerm(pt)}" style="margin-left: 150px;" styleClass="btn btn-default btn-sm btn-expand"
+                                                         update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraSearchPanel" value="+" />
+                                        <p:outputLabel style="color:green;" value="[PT] #{pt.ptName}" />
+                                        <p:commandLink styleClass="btn btn-success btn-sm"
+                                                       update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraOutputLabel1"
+                                                       actionListener="#{cc.attrs.controller.setPrefTerm(pt)}"
+                                                       oncomplete="#{cc.attrs.controller.setLowLevelTerm(null)}"
+                                                       style="margin-left: 5px; margin-right: 5px;font-size: 0.8em;padding: 0px 10px;"
+                                                       value="#{msg.select}" />
+                                        <br/>
+                                        <h:panelGroup rendered="#{meddraController.selectedPrefTerm.id.equals(pt.id)}">
+                                            <ui:repeat value="#{meddraController.lowLevelTerms}" var="llt">
+                                                <p:commandButton  style="margin-left: 200px;" styleClass="btn btn-default btn-sm btn-expand"
+                                                                  update="#{p:component('meddraSearchPanel')}" value="+" />
+                                                <p:outputLabel style="color:brown;" value="[LLT] #{llt.lltName}" />
+                                                <p:commandLink styleClass="btn btn-success btn-sm"
+                                                               actionListener="#{cc.attrs.controller.setLowLevelTerm(llt)}"
+                                                               update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraOutputLabel1"
+                                                               oncomplete="#{cc.attrs.controller.setPrefTerm(null)}"
+                                                               style="margin-left: 5px; margin-right: 5px; font-size: 0.8em;padding: 0px 10px;"
+                                                               value="#{msg.select}" />
+                                                <br/>
+                                            </ui:repeat>
+                                        </h:panelGroup>
+                                    </ui:repeat>
+                               </h:panelGroup>
+                           </ui:repeat>
+                        </h:panelGroup>
+
+                    </ui:repeat>
+
+                </h:panelGroup>
+                <!--</c:if>-->
+            </ui:repeat>
+        </p:panel >
+
+
+        <p:panel id="meddraSearchPanelFilter" rendered="#{meddraController.filterString != null}">
+
+            <ui:repeat id="soc_repeat" value="#{meddraController.filterSocTerms}" var="soc">
+                <p:commandButton actionListener="#{meddraController.addToExpandedSocFilter(soc)}"
+                                 update=":#{component.namingContainer.parent.namingContainer.clientId}:meddraSearchPanelFilter"
+                                 styleClass="btn btn-default btn-sm btn-expand"
+                                 value="+" />
+                <p:outputLabel styleClass="soc-label" value="[SOC] #{soc.socName}" /><br/>
+                    <ui:repeat id="hlgt_repeat" value="#{soc.hlgtPrefTermList}" var="hlgt">
+                        <h:panelGroup rendered="#{meddraController.filterHlgtPrefTerm.contains(hlgt)}">
+                            <p:commandButton actionListener="#{meddraController.addToExpandedHlgtPrefTermFilter(hlgt)}"
+                                             update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraSearchPanelFilter"
+                                             style="margin-left: 50px;"
+                                             styleClass="btn btn-default btn-sm btn-expand"
+                                             value="+" />
+                        <p:outputLabel styleClass="hlgt-label" style="color:red;" value="[HLGT] #{hlgt.hlgtName}" /><br/>
+                            <ui:repeat id="hlt_repeat" value="#{hlgt.hltPrefTerms}" var="hlt">
+                                <h:panelGroup rendered="#{meddraController.filterHltPrefTerm.contains(hlt)}">
+                                    <p:commandButton actionListener="#{meddraController.addToExpandedHltPrefTermFilter(hlt)}"
+                                                     update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraSearchPanelFilter"
+                                                     styleClass="btn btn-default btn-sm btn-expand"
+                                                     style="margin-left: 100px;"
+                                                     value="+" />
+                                    <p:outputLabel styleClass="hlt-label" style="color: blue;" value="[HLT] #{hlt.hltName}"/><br/>
+                                    <ui:repeat id="pt_repeat" value="#{hlt.prefTerms}" var="pt">
+                                        <h:panelGroup rendered="#{meddraController.filterPrefTerms.contains(pt)}">
+                                            <p:commandButton actionListener="#{meddraController.addToExpandedPrefTermFilter(pt)}"
+                                                             update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraSearchPanelFilter"
+                                                             styleClass="btn btn-default btn-sm btn-expand"
+                                                             style="margin-left: 150px;"
+                                                             value="+" />
+                                        <p:outputLabel styleClass="pt-label" style="color: green;" value="[PT] #{pt.ptName}" />
+                                            <p:commandLink styleClass="btn btn-success btn-sm"
+                                                           update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraOutputLabel1"
+                                                           actionListener="#{cc.attrs.controller.setPrefTerm(pt)}"
+                                                           oncomplete="#{cc.attrs.controller.setLowLevelTerm(null)}"
+                                                           style="margin-left: 5px; margin-right: 5px;font-size: 0.8em;padding: 0px 10px;"
+                                                           value="#{msg.select}" />
+                                            <br/>
+
+                                        <ui:repeat value="#{pt.lowLevelTerms}" var="llt">
+                                            <h:panelGroup rendered="#{meddraController.filterLowLevelTerms.contains(llt)}">
+                                                <p:outputLabel styleClass="llt-label" value="[LLT] #{llt.lltName}" style="margin-left: 200px;color: darkred;" />
+                                                <p:commandLink styleClass="btn btn-success btn-sm"
+                                                               update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:meddraOutputLabel1"
+                                                               actionListener="#{cc.attrs.controller.setLowLevelTerm(llt)}"
+                                                               oncomplete="#{cc.attrs.controller.setPrefTerm(null)}"
+                                                               style="margin-left: 5px; margin-right: 5px;font-size: 0.8em;padding: 0px 10px;"
+                                                               value="#{msg.select}" />
+                                                <br/>
+                                            </h:panelGroup>
+                                        </ui:repeat>
+
+                                        </h:panelGroup>
+                                    </ui:repeat>
+
+                                </h:panelGroup>
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </ui:repeat>
+            </ui:repeat>
+
+
+        </p:panel>
+        </p:outputPanel>
+    </p:dialog>
+
+</cc:implementation>
+
+</html>

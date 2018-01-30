@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+
+    <!-- INTERFACE -->
+    <cc:interface >
+        <cc:attribute name="controller" required="true" />
+        <cc:attribute name="item" required="true" />
+        <cc:attribute name="updateSelect" default="@form" />
+        <cc:attribute name="updateDelete" default="@form" />
+        <cc:attribute name="selectOutcome" />
+        <cc:attribute name="oncomplete" />
+        <cc:attribute name="deleteEnabled" default="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="ui-grid">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4" style="margin-right: 5px;">
+                    <p:commandButton rendered="#{empty cc.attrs.selectOutcome}"
+                                     style="margin-right: 2px; font-size: 12px"
+                                     id="select"
+                                     action="#{cc.attrs.controller.setSelected(cc.attrs.item)}"
+                                     update="#{cc.attrs.updateSelect}"
+                                     icon="fa fa-search"
+                                     title="#{msg['editBtn']}"
+                                     value="#{msg['editBtn']}"
+                    >
+
+                    </p:commandButton>
+
+                    <p:button icon="ui-icon-folder-open"
+                              rendered="#{not empty cc.attrs.selectOutcome}"
+                              outcome="#{cc.attrs.selectOutcome}" >
+                        <cc:insertChildren />
+                    </p:button>
+                </div>
+                <div class="ui-grid-col-4">
+                    <h:panelGroup id="deleteGroup" rendered="#{cc.attrs.deleteEnabled}" layout="block">
+                        <p:commandButton
+                                style="font-size: 12px"
+                            icon="fa fa-trash" id="deleteLink"
+                            action="#{cc.attrs.controller.delete(cc.attrs.item)}"
+                            update="#{cc.attrs.updateDelete}"
+                            title="#{msg['deleteBtn']}"
+                            value="#{msg['deleteBtn']}">
+                            <p:confirm header="#{msg.Confirmation}"
+                                       message="#{msg.are_you_sure_delete}"
+                                       icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" styleClass="widthControlledDialog noBorderHeader" >
+                            <p:commandButton value="#{msg.yes}"
+                                             type="button"
+                                             styleClass="ui-confirmdialog-yes btn-danger"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="#{msg.no}"
+                                             type="button"
+                                             styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:panelGroup>
+                </div>
+            </div>
+        </div>
+    </cc:implementation>
+</html>

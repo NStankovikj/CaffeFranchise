@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface >
+        <cc:attribute name="parentCode" required="true" type="java.lang.String" />
+        <cc:attribute name="value" required="true" type="com.asseco.model.domain.hrmis.GenericDictionary" />
+        <cc:attribute name="required" default="false" type="java.lang.Boolean" />
+        <cc:attribute name="update" default="@this" />
+        <cc:clientBehavior name="change" targets="combo" event="change"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation >
+        <h:panelGrid columns="2" >
+            <p:selectOneMenu id="combo" required="#{cc.attrs.required}" value="#{cc.attrs.value}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['selectvalue']}" noSelectionOption="true" />
+                <f:selectItems value="#{dc.getDictionaries(cc.attrs.parentCode)}" var="enum"
+                               itemValue="#{enum}"
+                               itemLabel="#{enum.namero}"/>
+                <p:ajax event="change" update="#{cc.attrs.update}" />
+            </p:selectOneMenu>
+            <p:message for="combo" />
+        </h:panelGrid>
+    </cc:implementation>
+</html>

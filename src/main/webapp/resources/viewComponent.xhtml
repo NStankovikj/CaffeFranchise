@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pa="http://xmlns.jcp.org/jsf/composite/pa">
+
+    <!--    author Nenad Stankovik   -->\
+
+    <!-- INTERFACE -->
+    <cc:interface  >
+        <cc:attribute name="controller" required="true" />
+        <cc:attribute name="columnsPage"  required="true" />
+        <cc:attribute name="inputPage"  required="true" />
+        <cc:attribute name="dataTableRendered"  default="true" />
+        <cc:attribute name="datatableSource" default="#{cc.attrs.controller.lazyDataModel}"  />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation id="sss" >
+        <h:form id="crudForm">
+            <p:growl id="growl" sticky="false" showDetail="false" />
+            <p:dataTable id="dataTable"
+                         class="sreden"
+                         rendered="#{cc.attrs.dataTableRendered}"
+                         widgetVar="tableWidget"
+                         paginatorPosition="bottom"
+                         value="#{cc.attrs.datatableSource}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         lazy="true"
+                         rows="15" rowsPerPageTemplate="10,15,20,50">
+                <ui:include src="#{cc.attrs.columnsPage}" />
+                <p:column width="80">
+                    <pa:selectDelete controller="#{cc.attrs.controller}"
+                                     transient="true"
+                                     item="#{item}"
+                                     updateSelect="#{cc.id}:newPane #{cc.id}:crudForm"
+                                     />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:panel id="newPane" styleClass="noPaddingPanel" style="padding:0;" >
+            <p:outputPanel rendered="#{not empty cc.attrs.controller.selected}">
+                <h:form id="testEditForm" >
+
+                    <p:panelGrid style="width: 100%;table-layout: fixed; top: -72px;
+                                 position: relative;" >
+
+                        <p:row>
+                            <ui:include src="#{cc.attrs.inputPage}" />
+
+                            <p:column styleClass="eightyWidth">
+                                <p:commandButton action="#{cc.attrs.controller.updateSelected()}"
+                                                 value="#{msg['update']}"
+                                                 update="@form
+                                                 #{cc.id}:crudForm:growl
+                                                 #{cc.id}:newPane
+                                                 #{cc.id}:crudForm" />
+
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                </h:form>
+            </p:outputPanel>
+
+        </p:panel>
+    </cc:implementation>
+</html>
+
+

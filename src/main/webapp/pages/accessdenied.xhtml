@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <f:view locale="#{localeBean.locale}" encoding="UTF-8" contentType="text/html" >
+        <h:head>
+            <h:outputStylesheet library="css" name="AlmsStyle.css" />
+            <title>#{msg.Malmed}</title>
+            <link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/x-icon" />
+        </h:head>
+        <h:body styleClass="loginBody">
+            <h:form id="login">
+                <p:panelGrid styleClass="forgotPasswordGrid" >
+                    <p:row>
+                        <p:column styleClass="logoGridCell">
+                            <!--<p:graphicImage name="images/logo.png" height="100px" />-->
+                            <h4>Pharmakovigilance</h4>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{msg['accessdeniedInfo']}"/>
+                            <p><h:form><h:link outcome="home" >#{msg['backToInitialPage']}</h:link></h:form></p>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

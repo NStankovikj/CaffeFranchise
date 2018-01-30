@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<ui:composition template="/admintheme/includes/horizontal/template.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{msg['title.listUserRequestRegistration']}"></h:outputText>
+    </ui:define>
+    <ui:define name="body">
+        <h:form id="form">
+            <p:growl id="growl" sticky="false" showDetail="false"/>
+            <p:dataTable id="tableUser" widgetVar="usersTable"
+                         var="item" value="#{listUserRequestRegistrationController.listUserRequestRegistration}"
+                         paginator="true" paginatorPosition="bottom"
+                         styleClass="#{mainBean.userSesion.skin != null ? mainBean.userSesion.skin : adminConfigLocal.skin} allReportTableStyle"
+                         tableStyle="table-layout: auto" emptyMessage="#{msg['noRecordsFound']}"
+                         paginatorTemplate="#{msg['table.rowsPerPage']} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} &nbsp;&nbsp; #{msg['table.jumpToPage']} &nbsp;&nbsp; {JumpToPageDropdown}"
+                         currentPageReportTemplate="(#{msg['table.page']}: {currentPage}/{totalPages})"
+                         rowsPerPageTemplate="10,25,50,100" sortBy="#{item.dateCreated}" sortOrder="descending">
+
+                <p:column headerText="#{msg['odobriRegistracija']}">
+                    <p:commandButton actionListener="#{listUserRequestRegistrationController.saveRegistration(item)}"
+                                     rendered="#{item.verify_email}"
+                                     value="#{msg['odobriRegistracija']}" update="@form"
+                                     onclick="PF('dataTablepBlockUI').show()">
+                        <p:confirm header="#{msg['Confirmation']}" message="#{msg['confirmRegistrationHeder']}"/>
+                    </p:commandButton>
+                </p:column>
+
+                <p:column headerText="#{msg['odbiRegistracija']}">
+                    <p:commandButton actionListener="#{listUserRequestRegistrationController.deleteRegistration(item)}"
+                                     value="#{msg['odbiRegistracija']}"
+                                     update="@form" onclick="PF('dataTablepBlockUI').show()"
+                                     styleClass="btn btn-danger btn-sm"
+                    >
+                        <p:confirm header="#{msg['Confirmation']}" message="#{msg['confirmRegistrationDeleteHeder']}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column headerText="#{msg['registration.emailVerify']}" sortBy="#{item.verify_email}">
+                    <h:outputText value="#{item.verify_email ? msg['emailConfirmYes']:msg['emailConfirmNO']}"/>
+                </p:column>
+                <p:column headerText="#{msg['registration.dateCreate']}" sortBy="#{item.dateCreated}">
+                    <h:outputText value="#{item.dateCreated}">
+                        <f:convertDateTime pattern="dd.MM.yyyy hh:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['kompanijaaDrzava']}" sortBy="#{item.countryCompany.label}"
+                          filterBy="#{item.countryCompany.label}">
+                    <h:outputText value="#{item.countryCompany.label}"/>
+                </p:column>
+                <p:column headerText="#{msg['kompanijaGrad']}" sortBy="#{item.gradKompanija.naziv}"
+                          filterBy="#{item.gradKompanija.naziv}">
+                    <h:outputText value="#{item.gradKompanija.naziv}"/>
+                </p:column>
+                <p:column headerText="#{msg['kompanijaAdresa']}" sortBy="#{item.adresaSedisteKompanija}"
+                          filterBy="#{item.adresaSedisteKompanija}">
+                    <h:outputText value="#{item.adresaSedisteKompanija}"/>
+                </p:column>
+                <p:column headerText="#{msg['user.username']}" sortBy="#{item.username}" filterBy="#{item.username}">
+                    <h:outputText value="#{item.username}"/>
+                </p:column>
+                <p:column headerText="#{msg['lice.ime']}" sortBy="#{item.ime}" filterBy="#{item.ime}">
+                    <h:outputText value="#{item.ime}"/>
+                </p:column>
+                <p:column headerText="#{msg['lice.prezime']}" sortBy="#{item.prezime}" filterBy="#{item.prezime}">
+                    <h:outputText value="#{item.prezime}"/>
+                </p:column>
+                <p:column headerText="#{msg['user.email']}" sortBy="#{item.email}" filterBy="#{item.email}">
+                    <h:outputText value="#{item.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['lice.telefon']}" sortBy="#{item.telefon}" filterBy="#{item.telefon}">
+                    <h:outputText value="#{item.telefon}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton oncomplete="PF('asignOrganizationDialog').show();"
+                                     action="#{listUserRequestRegistrationController.setUserRR(item)}"
+                                     value="#{msg['dodeliOrganizacija']}"
+                                     update="asignOrganizationForm"
+                                     styleClass="#{mainBean.userSesion.skin} skinnedButton"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton oncomplete="PF('asignRoleDialog').show();"
+                                     action="#{listUserRequestRegistrationController.setUserRR(item)}"
+                                     update="asignRoleForm"
+                                     value="#{msg['dodeliUloga']}"
+                                     styleClass="#{mainBean.userSesion.skin} skinnedButton"/>
+                </p:column>
+            </p:dataTable>
+            <p:blockUI block="tableUser" widgetVar="dataTablepBlockUI">
+                <p:graphicImage name="/images/ajax-loader.gif"/>
+            </p:blockUI>
+            <p:confirmDialog global="true" styleClass="widthControlledDialog noBorderHeader" showEffect="fade"
+                             hideEffect="fade">
+                <p:commandButton value="#{msg['yesBtn']}" type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="ui-icon-check"/>
+                <p:commandButton value="#{msg['noBtn']}" type="button" styleClass="ui-confirmdialog-no"
+                                 icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:form>
+        <ui:include src="/pages/administration/asignOrganization.xhtml"/>
+        <ui:include src="/pages/administration/asignRole.xhtml"/>
+    </ui:define>
+</ui:composition>
+</html>
+

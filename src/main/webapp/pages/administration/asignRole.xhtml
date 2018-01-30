@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+
+<h:form id="asignRoleForm">
+    <p:dialog widgetVar="asignRoleDialog"
+              id="asignRoleLookupID"
+              dynamic="true"
+              closeOnEscape="true"
+              width="1300px"
+              draggable="false"
+              position="center center"
+              resizable="false"
+              modal="true"
+              styleClass="widthControlledDialog heightControlledDialog noBorderHeader"
+    >
+        <h:panelGroup id="asignRolePanelGroup">
+            <p:panel header="#{msg.dodeliUloga}"
+                     styleClass="styledInnerPanel"
+                     style="padding-top: 0px; margin-top: 0px">
+                <div class="row">
+                    <div class="col-md-6 columnPadding">
+                        <p:selectManyCheckbox id="role" value="#{listUserRequestRegistrationController.userRR.listRoles}"
+                                            converter="roleConverter"
+                                              layout="grid" columns="3">
+                            <f:selectItems value="#{listUserRequestRegistrationController.listRoles}"
+                                           var="role"
+                                           itemLabel="#{role.name}"
+                                           itemValue="#{role}" />
+                        </p:selectManyCheckbox>
+                    </div>
+                </div>
+            </p:panel>
+            <p:commandButton styleClass="#{mainBean.userSesion.skin} skinnedButton"
+                             value="#{msg.save}"
+                             style="float: right"
+                             action="#{listUserRequestRegistrationController.assignRoles()}"
+                             update="#{p:component('tableUser')} #{p:component('asignRolePanelGroup')}"
+                             oncomplete="PF('asignRoleDialog').hide()"
+                             process="@form"
+            />
+        </h:panelGroup>
+    </p:dialog>
+</h:form>
+</html>

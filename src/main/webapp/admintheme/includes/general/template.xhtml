@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/admintheme/admin-top.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"> (1)
+    <ui:param name = "renderBreadCrumb" value = "false" />
+    <h:outputStylesheet library="css" name="styles.css" />
+
+    <ui:define name="head">
+        <title>CaffeFranchise</title>
+        <h:head>
+            <h:outputStylesheet library="css" name="styles.css" />
+        </h:head>
+    </ui:define>
+
+    <ui:define name="logo-lg">
+        CaffeFranchise
+    </ui:define>
+
+    <ui:define name="logo-mini">
+        CF
+    </ui:define>
+
+    <ui:define name="menu">
+        <ui:include src="/admintheme/includes/general/menu.xhtml"/>
+    </ui:define>
+
+    <ui:define name="top-menu">
+        <ui:include src="/admintheme/includes/top-bar.xhtml"/>
+    </ui:define>
+
+    <!--    <ui:define name="title">
+
+        </ui:define>
+
+        <ui:define name="description">
+
+        </ui:define>-->
+
+    <ui:define name="body">
+
+    </ui:define>
+
+
+    <ui:define name="footer">
+        <a target="_blank"
+           href="https://see.asseco.com/">
+            Copyright &copy; 2017 - ASSECO SEE
+        </a>
+
+        <div class="pull-right hidden-xs" style="color: gray">
+            <i>1.0.0</i>
+        </div>
+    </ui:define>
+
+
+</ui:composition>

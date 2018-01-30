@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+
+    <!-- INTERFACE -->
+    <cc:interface >
+        <cc:attribute name="value" type="java.lang.Boolean" required="true"/>       
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation> 
+        <h:panelGroup styleClass="fa fa-check" style="color:green;text-shadow: 1px 1px 1px #ccc;
+                      font-size: 1.5em;" rendered="#{cc.attrs.value}"/>
+        <h:panelGroup styleClass="fa fa-close" style="color:red;text-shadow: 1px 1px 1px #ccc;
+                      font-size: 1.5em;" rendered="#{not cc.attrs.value}"/>
+
+    </cc:implementation>
+</html>

@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pa="http://xmlns.jcp.org/jsf/composite/pa"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+<cc:interface componentType="whodrugmodule">
+    <cc:attribute name="selectionMP" targets="" required="true"
+                  shortDescription="selected whodrug MP item in ctrl (controller -> mp_property)"/>
+    <cc:attribute name="substances" targets="" required="true"
+                  shortDescription="selected whodrug MP item in ctrl (controller -> mp_property)"/>
+    <cc:attribute name="wvar" targets="" required="true"
+                  shortDescription="selected whodrug MP item in ctrl (controller -> mp_property)"/>
+    <cc:attribute name="controller" targets=""
+                  shortDescription="controller -> must have 2 class properties [1.LowLevelTerm lowLevelTerm AND 2.PrefTerm prefTerm]"
+                  required="true"/>
+    <cc:attribute name="callbackMethod" shortDescription="method to call after closing pop-up window"
+                  method-signature="java.lang.String action()"/>
+    <cc:attribute name="updateForm" shortDescription="form to update after closing pop-up dialog" targets=""
+                  required="true"/>
+</cc:interface>
+
+<cc:implementation>
+    <p:dialog widgetVar="whodrugDialogPanel"
+              id="whodrugDialogPanel"
+              width="80%"
+              dynamic="true"
+              closable="false"
+              closeOnEscape="false"
+              draggable="true"
+              height="700px"
+              position="center top"
+              header="#{msg.chooseDrug}"
+              resizable="true"
+              modal="true"
+              styleClass="widthControlledDialog noBorderHeader"
+    >
+        <p:ajax event="close"
+                listener="#{cc.attrs.callbackMethod}"
+                onsuccess="clearWhodrugDialog();"
+                update="#{p:component(cc.attrs.updateForm)}"
+        />
+
+        <p:remoteCommand name="clearWhodrugDialog" process="@form" update="@form"
+                         action="#{whodrugController.clear}" />
+
+
+        <p:tabView id="whoDrugTabView" dynamic="true" cache="false">
+            <p:tab id="whoDrugTab1" title="#{msg.iKnowTheDrug}">
+                <p:outputPanel id="whoDrugPanel">
+                    <!--update="#{p:component(cc.attrs.updateForm)}"-->
+                    <p:commandButton oncomplete="PF('whodrugDialogPanel').hide()"
+                                     styleClass="btn btn-danger btn-sm pull-right"
+                                     value="#{msg.cancel}">
+                        <p:ajax listener="#{cc.attrs.controller.setMp(null)}" />
+                        <p:ajax listener="#{cc.attrs.controller.setSubstancesuns(null)}" />
+                    </p:commandButton>
+                    <p:commandButton onclick="PF('whodrugDialogPanel').hide()" styleClass="btn btn-success btn-sm pull-right"
+                                     value="#{msg.OK}"/>
+                    <p:inputText value="#{whodrugController.filterString}" placeholder="example: Sentram"/>
+                    <p:defaultCommand target="searchWhoDrugBtn" />
+
+                    <p:commandButton id="searchWhoDrugBtn" value="#{msg.search}" icon="fa fa-search" actionListener="#{whodrugController.filter()}"
+                                     update=":#{component.namingContainer.clientId}:whoDrugPanel"/>
+                    <br/><br/>
+                    <p:outputLabel value="#{msg.selectedMP}: " style="margin-right: 5px;"/>
+                        <span style="margin-left: 5px; margin-right: 5px; border-radius: 5px; background-color: #2b72ae; color: white; padding: 5px 10px;">
+                        <p:outputLabel rendered="#{cc.attrs.controller.mp != null}" value=" #{cc.attrs.controller.mp.drugName}" style="text-transform: uppercase; color: white; font-weight: bold;"/>
+                        <p:outputLabel value="#{msg.None}" rendered="#{cc.attrs.controller.mp == null}"/>
+                        </span>
+                    <hr/>
+                    <h:panelGroup rendered="#{whodrugController.filteredDrugs != null}">
+
+                        <ui:repeat value="#{whodrugController.drugTrees}" var="treeNode">
+                            <p:commandButton value="+" style="padding: 0px; width: 20px;  height: 20px; line-height: 1;"
+                                             actionListener="#{treeNode.setExpanded(1)}" update=":#{component.namingContainer.parent.namingContainer.clientId}:whoDrugPanel"
+                                             rendered="#{treeNode.expanded.toString().equals('0')}"/>
+                            <p:commandButton value="-" style="padding: 0px; width: 20px; height: 20px; line-height: 1;"
+                                             actionListener="#{treeNode.setExpanded(0)}" update=":#{component.namingContainer.parent.namingContainer.clientId}:whoDrugPanel"
+                                             rendered="#{treeNode.expanded.toString().equals('1')}"/>&nbsp;
+
+                            <p:commandButton
+                                    rendered="#{whodrugController.selectedNode == null or !whodrugController.selectedNode.data.medicinalprodId.equals(treeNode.data.medicinalprodId)}"
+                                    value="#{msg.select}"
+                                    action="#{cc.attrs.controller.setMp(treeNode.data)}"
+                                    update=":#{component.namingContainer.parent.namingContainer.clientId}:whoDrugPanel" styleClass="btn btn-success"
+                                    style="padding: 0px; margin: 2px 5px;">
+                                <f:actionListener binding="#{whodrugController.setSelectedNode(treeNode)}"/>
+                            </p:commandButton>
+
+                            <p:commandButton
+                                    rendered="#{whodrugController.selectedNode != null and whodrugController.selectedNode.data.medicinalprodId.equals(treeNode.data.medicinalprodId)}"
+                                    value="#{msg.unselect}"
+                                    action="#{cc.attrs.controller.setMp(null)}"
+                                    update=":#{component.namingContainer.parent.namingContainer.clientId}:whoDrugPanel" styleClass="btn btn-danger"
+                                    style="padding: 0px; margin: 2px 5px;">
+                                <f:actionListener binding="#{whodrugController.setSelectedNode(null)}"/>
+                            </p:commandButton>
+
+                            <p:outputLabel value="#{treeNode.data.drugName}"
+                                           style="text-transform: uppercase; color: darkblue;"/>
+                            <p:outputLabel value="&nbsp; ("/>
+                            <h:panelGroup>
+                                <ui:repeat value="#{treeNode.data.ingredientIngCollection}" var="ing" varStatus="varStatus">
+                                    <p:outputLabel
+                                            rendered="#{treeNode.data.ingredientIngCollection != null and treeNode.data.ingredientIngCollection.size() != 0 and varStatus.index != treeNode.data.ingredientIngCollection.size() - 1}"
+                                            value="#{ing.substanceId.substanceName += ',&nbsp;'}"/>
+                                    <p:outputLabel
+                                            rendered="#{treeNode.data.ingredientIngCollection != null and treeNode.data.ingredientIngCollection.size() != 0 and varStatus.index == treeNode.data.ingredientIngCollection.size() - 1}"
+                                            value="#{ing.substanceId.substanceName}"/>
+
+                                </ui:repeat>
+                            </h:panelGroup>
+                            <p:outputLabel value=")"/> <br/>
+
+                            <h:panelGroup rendered="#{treeNode.expanded.toString().equals('1')}">
+                                <ui:repeat value="#{treeNode.children}" var="secondNode">
+                                    <!--<h:panelGroup rendered="#{secondNode}">-->
+                                    <span style="margin-left: 50px;"></span>
+                                    <p:commandButton value="+" style="padding: 0px; width: 20px;  height: 20px; line-height: 1;"
+                                                     actionListener="#{secondNode.setExpanded(1)}"
+                                                     update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:whoDrugPanel"
+                                                     rendered="#{secondNode.expanded.toString().equals('0')}"/>
+                                    <p:commandButton value="-" style="padding: 0px; width: 20px; height: 20px; line-height: 1;"
+                                                     actionListener="#{secondNode.setExpanded(0)}"
+                                                     update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:whoDrugPanel"
+                                                     rendered="#{secondNode.expanded.toString().equals('1')}"/>&nbsp;
+
+                                    <p:commandButton
+                                            rendered="#{whodrugController.selectedNode == null or !whodrugController.selectedNode.data.medicinalprodId.equals(secondNode.data.medicinalprodId)}"
+                                            value="#{msg.select}"
+                                            action="#{cc.attrs.controller.setMp(secondNode.data)}"
+                                            update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:whoDrugPanel" styleClass="btn btn-success"
+                                            style="padding: 0px; margin: 2px 5px;">
+                                        <f:actionListener binding="#{whodrugController.setSelectedNode(secondNode)}"/>
+                                    </p:commandButton>
+
+                                    <p:commandButton
+                                            rendered="#{whodrugController.selectedNode != null and whodrugController.selectedNode.data.medicinalprodId.equals(secondNode.data.medicinalprodId)}"
+                                            value="#{msg.unselect}"
+                                            action="#{cc.attrs.controller.setMp(null)}"
+                                            update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:whoDrugPanel" styleClass="btn btn-danger"
+                                            style="padding: 0px; margin: 2px 5px;">
+                                        <f:actionListener binding="#{whodrugController.setSelectedNode(null)}"/>
+                                    </p:commandButton>
+
+
+
+                                    <p:outputLabel value="#{secondNode.data.drugName}"
+                                                   style="text-transform: uppercase; color: darkblue;"/> &nbsp; &nbsp;
+                                    <p:outputLabel value="#{secondNode.data.markAuthorizHolder.name}"/> &nbsp; &nbsp;
+                                    <p:outputLabel value="[#{secondNode.data.country}]" style="color: darkred;"/> &nbsp; &nbsp;
+                                    <br/>
+                                    <h:panelGroup rendered="#{secondNode.expanded.toString().equals('1')}">
+                                        <ui:repeat value="#{secondNode.children}" var="thirdNode">
+                                            <h:panelGroup rendered="#{thirdNode != null}">
+                                                <span style="margin-left: 130px;"></span>
+
+                                                <p:commandButton
+                                                        rendered="#{whodrugController.selectedNode == null or !whodrugController.selectedNode.data.medicinalprodId.equals(thirdNode.data.medicinalprodId)}"
+                                                        value="#{msg.select}"
+                                                        action="#{cc.attrs.controller.setMp(thirdNode.data)}"
+                                                        update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:whoDrugPanel" styleClass="btn btn-success"
+                                                        style="padding: 0px; margin: 2px 5px;">
+                                                    <f:actionListener binding="#{whodrugController.setSelectedNode(thirdNode)}"/>
+                                                </p:commandButton>
+
+                                                <p:commandButton
+                                                        rendered="#{whodrugController.selectedNode != null and whodrugController.selectedNode.data.medicinalprodId.equals(thirdNode.data.medicinalprodId)}"
+                                                        value="#{msg.unselect}"
+                                                        action="#{cc.attrs.controller.setMp(null)}"
+                                                        update=":#{component.namingContainer.parent.namingContainer.parent.namingContainer.parent.namingContainer.clientId}:whoDrugPanel" styleClass="btn btn-danger"
+                                                        style="padding: 0px; margin: 2px 5px;">
+                                                    <f:actionListener binding="#{whodrugController.setSelectedNode(null)}"/>
+                                                </p:commandButton>
+
+
+                                                <p:outputLabel value="#{thirdNode.data.drugName}"
+                                                               style="text-transform: uppercase; color: darkblue"/> &nbsp; &nbsp;
+                                                <ui:repeat value="#{whodrugController.getPharmFormForMP(thirdNode.data)}"
+                                                           var="pf">
+                                                    <p:outputLabel rendered="#{pf != null}" value="#{pf.text}"/>
+                                                </ui:repeat>
+                                            </h:panelGroup>
+                                            &nbsp; &nbsp; <br/>
+                                        </ui:repeat>
+                                        <h:panelGroup rendered="#{secondNode.children.size() == 0}">
+                                            <p:outputLabel style="margin-left: 130px;font-style: italic;"
+                                                           value="#{msg.noFormOrStrengthInformationAvailable}"/><br/>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </ui:repeat>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </p:tab>
+            <p:tab title="#{msg.iKnowTheDrugSubstances}" rendered="#{cc.attrs.substances.equals('true')}">
+                <p:panel id="whoDrugSubstances">
+                    <p:outputLabel value="#{msg.selectedSubstances}: "/>
+                    <ui:repeat value="#{cc.attrs.controller.substancesuns}" var="substance">
+                        <span style="margin-left: 5px; margin-right: 5px; border-radius: 5px; background-color: #2b72ae; color: white; padding: 5px 10px;">
+                        <p:outputLabel value="#{substance.substanceName}"/>
+                        </span>
+                    </ui:repeat>
+
+                    <p:commandButton oncomplete="PF('whodrugDialogPanel').hide()"
+                                     styleClass="btn btn-danger btn-sm pull-right"
+                                     value="#{msg.cancel}">
+                        <p:ajax listener="#{cc.attrs.controller.setMp(null)}" />
+                        <p:ajax listener="#{cc.attrs.controller.setSubstancesuns(null)}" />
+                    </p:commandButton>
+
+                    <p:commandButton onclick="PF('whodrugDialogPanel').hide()" styleClass="btn btn-success btn-sm pull-right"
+                                     value="#{msg.OK}"/>
+
+                    <p:dataTable var="sub"
+                                 style="margin-top:20px;"
+                                 value="#{substanceController.lazyDataModel}"
+                                 lazy="true"
+                                 rowKey="#{sub.id}"
+                                 styleClass="table-bordered styledInnerPanel"
+                                 selection="#{cc.attrs.controller.substancesuns}"
+                    >
+
+                        <p:ajax event="rowUnselectCheckbox" update=":#{component.namingContainer.parent.namingContainer.clientId}:whoDrugSubstances" listener="#{cc.attrs.controller.onRowUnselectCheckboxAddDrug}" />
+                        <p:ajax event="rowSelectCheckbox" update=":#{component.namingContainer.parent.namingContainer.clientId}:whoDrugSubstances" listener="#{cc.attrs.controller.onRowSelectCheckboxAddDrug}" />
+                        <p:column selectionMode="multiple" style="width:35px;text-align:center"/>
+
+                        <p:column filterBy="#{sub.substanceName}" headerText="#{msg.substanceName}" filterMatchMode="contains">
+                            <p:outputLabel value="#{sub.substanceName}" />
+                        </p:column>
+                        <p:column headerText="#{msg.casNumber}">
+                            <p:outputLabel value="#{sub.casNumber}"/>
+                        </p:column>
+                        <p:column headerText="#{msg.reference}">
+                            <p:outputLabel value="#{sub.referenceCode.reference}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panel>
+            </p:tab>
+        </p:tabView>
+    </p:dialog>
+</cc:implementation>
+
+</html>

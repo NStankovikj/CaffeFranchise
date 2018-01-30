@@ -1,0 +1,34 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pa="http://xmlns.jcp.org/jsf/composite/pa">
+    <!--    <cc:interface componentType="inputMonthYear">       -->
+    <cc:interface >
+        <cc:attribute name="maxyear" type="java.lang.Integer"
+                      shortDescription="The maximum year. Defaults to current year." />
+        <cc:attribute name="minyear" type="java.lang.Integer"
+                      shortDescription="The minimum year. Defaults to maxyear minus 100." />
+        <cc:attribute name="year" type="java.lang.Integer" required="true"/>
+        <cc:attribute name="month" type="java.lang.Integer" required="true"/>
+        <cc:attribute name="disabled" type="java.lang.Boolean" default="false"/>
+        <cc:attribute name="update" default="@form" />
+        <cc:clientBehavior name="change" event="change" targets="month year"/>
+    </cc:interface>
+    <cc:implementation>
+        <h:panelGrid columns="4">
+            <pa:outputLabel value="month" for="month"/>
+            <p:selectOneMenu id="month" value="#{cc.attrs.month}" converter="javax.faces.Integer" disabled="#{cc.attrs.disabled}">
+                <f:selectItems value="#{monthYearInputC.months}" />
+            </p:selectOneMenu>
+            <pa:outputLabel value="year" for="year"/>
+            <p:selectOneMenu id="year" value="#{cc.attrs.year}" converter="javax.faces.Integer" disabled="#{cc.attrs.disabled}">
+                <f:selectItems value="#{monthYearInputC.years}" />
+            </p:selectOneMenu>
+        </h:panelGrid>
+    </cc:implementation>
+</ui:component>

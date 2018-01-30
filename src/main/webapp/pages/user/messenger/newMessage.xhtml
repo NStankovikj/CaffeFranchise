@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:composition template="/admintheme/includes/horizontal/template.xhtml">
+        <ui:define name ="title">
+            <h:outputText value="#{msg['newMessage']}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form id="mainForm">
+                <p:growl id="growl" sticky="false" showDetail="false" />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="width: 150px;">
+                            <p:outputLabel value="#{msg['receiver']}"/>
+                        </p:column>
+                        <p:column style="width: 500px;">
+                            <p:selectOneMenu id="receiverDd" required="true" value="#{messengerController.newMessage.receiver}" styleClass="form-control" filter="true">
+                                <f:selectItem value="#{null}" itemValue="#{null}" itemLabel="--- Избери корисник ---" />
+                                <f:selectItems value="#{messengerController.allUsersCollection}" var="item" itemLabel="#{item.c2h.c2r12.concat(' ').concat(item.c2h.c2r14).concat(' (').concat(item.username).concat(')')}" itemValue="#{item}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{msg['title']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{messengerController.newMessage.title}" styleClass="form-control"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column style="vertical-align: top;">
+                            <p:outputLabel value="#{msg['content']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea value="#{messengerController.newMessage.content}" rows="15" styleClass="form-control"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{msg['attachments']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:panelGrid id="uploadPanel">
+                                <p:row>
+                                    <p:column>
+                                        <p:dataTable value="#{messengerController.uploadedAttachments}" var="item">
+                                            <p:column headerText="#{msg['file']}">
+                                                <p:outputLabel value="#{item.name}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column style="width:100%;">
+                                        <p:fileUpload fileUploadListener="#{messengerController.handleAttachmentsUpload}" mode="advanced" dragDropSupport="true"
+                                                      multiple="false" update="uploadPanel" process="mainForm" sizeLimit="100000" fileLimit="5" allowTypes="/(\.|\/)(gif|jpe?g|png|txt|pdf|zip|rar|doc?x|xls?x|odt)$/" />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="width: 650px;">
+                            <p:commandButton value="#{msg['send']}" styleClass="btn btn-primary" icon="fa fa-paper-plane" actionListener="#{messengerController.sendNewMessage()}" process="mainForm" update="mainForm" style="float:right;"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

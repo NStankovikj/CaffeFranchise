@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+<p:dataTable id="tableUser" widgetVar="usersTable"
+             var="item"
+             styleClass="#{mainBean.userSesion.skin != null ? mainBean.userSesion.skin : adminConfigLocal.skin} allReportTableStyle"
+             value="#{аddUserController.listUser}"
+             editable="true" paginator="true"
+             paginatorPosition="bottom"
+             paginatorTemplate="#{msg['table.rowsPerPage']} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} &nbsp;&nbsp; #{msg['table.jumpToPage']} &nbsp;&nbsp; {JumpToPageDropdown}"
+             currentPageReportTemplate="(#{msg['table.page']}: {currentPage}/{totalPages})"
+             emptyMessage="#{msg['noRecordsFound']}"
+             rowsPerPageTemplate="10,25,50,100"
+>
+
+    <p:column headerText="#{msg['user.username']}" sortBy="#{item.username}" filterBy="#{item.username}">
+        <h:outputText id="username" value="#{item.username}"/>
+    </p:column>
+    <p:column headerText="#{msg['lice.ime']}" sortBy="#{item.ime}" filterBy="#{item.ime}">
+        <h:outputText id="ime" value="#{item.ime}"/>
+    </p:column>
+    <p:column headerText="#{msg['lice.prezime']}" sortBy="#{item.prezime}" filterBy="#{item.prezime}">
+        <h:outputText value="#{item.prezime}"/>
+    </p:column>
+    <p:column headerText="#{msg['user.email']}" sortBy="#{item.email}" filterBy="#{item.email}">
+        <h:outputText value="#{item.email}"/>
+    </p:column>
+    <p:column headerText="#{msg['Organization']}" sortBy="#{item.organization}" filterBy="#{item.organization}">
+        <h:outputText value="#{item.organization.name}"/>
+    </p:column>
+    <p:column headerText="#{msg['lice.telefon']}" sortBy="#{item.telefon}" filterBy="#{item.telefon}">
+        <h:outputText value="#{item.telefon}"/>
+    </p:column>
+    <p:column headerText="#{msg['user.active']}" sortBy="#{item.active}" filterBy="#{item.active}"
+              filterMatchMode="exact">
+        <h:outputText value="#{item.active ? msg['user.active.true']:msg['user.active.false']}"/>
+    </p:column>
+    <p:column style="width: 220px;">
+        <f:facet name="header">
+            <p:commandButton id="btnAddUser"
+                             value="#{msg['title.addUser']}"
+                             onclick="PF('addUserDialog').show();"
+                             styleClass="#{mainBean.userSesion.skin} center-block"
+                             icon="fa fa-plus"
+                             ajax="true"
+            />
+
+        </f:facet>
+        <p:commandButton styleClass="btn btn-sm btn-danger pull-right"
+                         value="#{msg['delete']}"
+                         icon="fa fa-trash"
+                         action="#{аddUserController.deleteUser(item)}"
+                         update="tableUser"
+
+        >
+            <p:confirm header="#{msg.Confirmation}"
+                       message="#{msg.datumDoMsg}"
+                       icon="ui-icon-alert"/>
+        </p:commandButton>
+        <p:commandButton styleClass="#{mainBean.userSesion.skin} btn-sm skinnedButton pull-right"
+                         value="#{msg['select']}"
+                         icon="fa fa-search"
+                         update="@form #{p:component('addUserPanel')}"
+                         action="#{аddUserController.setUser(item)}"
+                         oncomplete="PF('addUserDialog').show();"
+        />
+        <p:confirmDialog global="true" styleClass="widthControlledDialog noBorderHeader">
+            <p:commandButton value="#{msg.yes}"
+                             type="button"
+                             styleClass="ui-confirmdialog-yes btn-danger"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="#{msg.no}"
+                             type="button"
+                             styleClass="ui-confirmdialog-no"
+                             icon="ui-icon-close"/>
+        </p:confirmDialog>
+    </p:column>
+</p:dataTable>
+</html>
+

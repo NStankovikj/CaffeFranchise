@@ -1,0 +1,22 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:pa="http://xmlns.jcp.org/jsf/composite/pa"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <p:column>
+            <pa:uniqueInputText id="naziv"
+                                styleClass="controllerWidth"
+                                displayLabel="false"
+                                currentEntity="#{gradoviController.selected}"
+                                value="#{gradoviController.selected.naziv}"
+                                uniqueColumn="naziv"/>
+        </p:column>
+        <p:column>
+            <p:selectOneMenu id="drzava" value="#{gradoviController.selected.drzava}" filter="true">
+                <f:selectItems value="#{gradoviController.listDrzavi}" var="item" itemLabel="#{item.naziv}" itemValue="#{item}"/>
+            </p:selectOneMenu>
+        </p:column>
+    </body>
+</html>

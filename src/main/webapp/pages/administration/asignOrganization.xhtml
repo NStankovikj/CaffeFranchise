@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+
+<h:form id="asignOrganizationForm">
+    <p:dialog widgetVar="asignOrganizationDialog"
+              id="asignOrganizationLookupID"
+              dynamic="true"
+              closeOnEscape="true"
+              width="1300px"
+              draggable="false"
+              position="center center"
+              resizable="false"
+              modal="true"
+              styleClass="widthControlledDialog heightControlledDialog noBorderHeader"
+    >
+        <h:panelGroup id="asignOrganizationPanelGroup">
+            <p:panel header="#{msg.companyInformations}"
+                     styleClass="styledInnerPanel"
+                     style="padding-top: 0px; margin-top: 0px">
+                <div class="row">
+                    <div class="col-md-4 columnPadding">
+                        <div class="form-group">
+                            <p:outputLabel for="name" value="#{msg.kompanijaNaziv}"/>
+                            <p:outputLabel id="name"
+                                           value="#{listUserRequestRegistrationController.userRR.nazivKompanija}"
+                                           styleClass="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-4 columnPadding">
+
+                        <div class="form-group">
+                            <p:outputLabel for="edb" value="#{msg.kompanijaEDB}"/>
+                            <p:outputLabel id="edb"
+                                           value="#{listUserRequestRegistrationController.userRR.edbKompanija}"
+                                           styleClass="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-4 columnPadding">
+                        <div class="form-group">
+                            <p:outputLabel for="embs" value="#{msg.kompanijaEMBS}"/>
+                            <p:outputLabel id="embs"
+                                           value="#{listUserRequestRegistrationController.userRR.maticenBrojKompanija}"
+                                           styleClass="form-control"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </p:panel>
+            <p:panel header="#{msg.dodeliOrganizacija}"
+                     styleClass="styledInnerPanel"
+                     style="padding-top: 0px; margin-top: 0px">
+                <div class="row">
+                    <div class="col-md-6 columnPadding">
+                        <div class="form-group">
+                            <p:outputLabel for="type" value="#{msg.organizationName}"/>
+                            <p:selectOneMenu id="type"
+                                             value="#{listUserRequestRegistrationController.userRR.organization}"
+                            >
+                                <f:selectItem itemLabel="#{msg['select']}"
+                                              itemValue="#{null}"
+                                              noSelectionOption="true"
+                                />
+                                <f:selectItems value="#{listUserRequestRegistrationController.listOrganizaton}"
+                                               var="var"
+                                               itemValue="#{var}"
+                                               itemLabel="#{var.name}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+            </p:panel>
+            <p:commandButton styleClass="#{mainBean.userSesion.skin} skinnedButton"
+                             value="#{msg.save}"
+                             style="float: right"
+                             action="#{listUserRequestRegistrationController.assignOrganization()}"
+                             update="#{p:component('tableUser')} #{p:component('asignOrganizationPanelGroup')}"
+                             oncomplete="PF('asignOrganizationDialog').hide()"
+                             process="@form"
+            />
+        </h:panelGroup>
+    </p:dialog>
+</h:form>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+
+>
+<body>
+<p:column styleClass="columnClass" filterBy="#{item.code}" headerText="#{msg['value']}">
+    <h:outputText value="#{item.code}"/>
+</p:column>
+
+<p:column styleClass="columnClass" filterBy="#{item.label}" headerText="#{msg['label']}">
+    <h:outputText value="#{item.label}"/>
+</p:column>
+<p:column styleClass="columnClass" filterBy="#{item.isActive}" headerText="#{msg['isActive']}">
+    <h:outputText value="#{item.isActive}"/>
+</p:column>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:composition template="/admintheme/includes/horizontal/template.xhtml">
+        <ui:define name ="title">
+            <h:outputText value="#{msg['title.inbox']}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form prependId="false">
+                <p:remoteCommand name="updateInbox" process="@this" immediate="true"
+                                 update="mainForm:dataTableInbox" actionListener="#{messengerController.refreshUserInbox()}" />
+            </h:form>
+            <h:form id="mainForm">
+
+                <p:growl id="growl" sticky="false" showDetail="false" />
+                <p:dataTable id="dataTableInbox"
+                             widgetVar="inboxWidget"
+                             rowKey="#{item.id}"
+                             selection="#{messengerController.selectedActionMessages}"
+                             rowStyleClass="#{item.markRead != 1 ? 'bold notseen' : 'seen'}"
+                             value="#{messengerController.user.receivedMessages}"
+                             var="item">
+                    <p:ajax event="rowDblselect" update="dialogForm:messageDetails" listener="#{messengerController.onRowSelect}" oncomplete="PF('dlg2').show()"  />
+
+                    <p:column selectionMode="multiple" style="width:35px;text-align:center"/>
+                    <p:column  width="35" rendered="#{item.markRead == 1}">
+                        <i class="fa fa-folder-open"></i>
+                    </p:column>
+                    <p:column width="35" rendered="#{item.markRead != 1}" style="width:35px;">
+                        <i class="fa fa-folder"></i>
+                    </p:column >
+                    <p:column width="35" rendered="#{item.markImportant != 1}" style="width:35px;">
+                    </p:column >
+                    <p:column width="35" rendered="#{item.markImportant == 1}" style="width:35px;">
+                        <i class="fa fa-flag" style="color:#e74c3c;" ></i>
+                    </p:column >
+                    <p:column headerText="#{msg['sender']}"
+                              sortBy="#{item.sender.c2h.c2r12.concat(' ').concat(item.sender.c2h.c2r14)}"
+                              filterBy="#{item.sender.c2h.c2r12.concat(' ').concat(item.sender.c2h.c2r14)}"
+                              >
+                        <p:outputLabel id="sender" value="#{item.sender != null ? item.sender.c2h.c2r12.concat(' ').concat(item.sender.c2h.c2r14) : msg['systemMessageSender']}" />
+                    </p:column>
+                    <p:column headerText="#{msg['title']}"
+                              sortBy="#{item.title}"
+                              filterBy="#{item.title}"
+                              >
+                        <p:outputLabel id="title" value="#{item.title}" />
+                    </p:column>
+                    <p:column headerText="#{msg['content']}"
+                              sortBy="#{item.content}"
+                              filterBy="#{item.content}"
+                              filterMatchMode="contains"
+                              >
+                        <p:outputLabel id="content" value="#{item.content}" escape="false" />
+                    </p:column>
+                    <p:column headerText="#{msg['date']}" width="130"
+                              sortBy="#{item.dateCreated}"
+                              >
+
+                        <p:outputLabel id="datecreated" value="#{item.dateCreated}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column width="100">
+                        <p:commandButton value="#{msg['prikaz']}" styleClass="btn btn-primary btn-sm" icon="fa fa-search" update="dialogForm:messageDetails" actionListener="#{messengerController.setSelectedAndSetSeen(item)}" oncomplete="PF('dlg2').show()" />
+                    </p:column>
+                </p:dataTable>
+
+                <p:contextMenu for="dataTableInbox">
+                    <p:menuitem value="#{msg['open']}" update="dialogForm:messageDetails" icon="ui-icon-search" oncomplete="PF('dlg2').show()" actionListener="#{messengerController.setSelectedAndSetSeenSelectedMessage()}"/>
+                    <p:menuitem value="#{msg['markAsImportant']}" update="dataTableInbox" icon="ui-icon-flag" actionListener="#{messengerController.markAsImportant()}" />
+                    <p:menuitem value="#{msg['markAsNotImportant']}" update="dataTableInbox" icon="ui-icon-flag" actionListener="#{messengerController.markAsNotImportant()}" />
+                    <p:menuitem value="#{msg['markAsRead']}" update="dataTableInbox" icon="ui-icon-folder-open" actionListener="#{messengerController.markAsRead()}" />
+                    <p:menuitem value="#{msg['markAsNotRead']}" update="dataTableInbox" icon="ui-icon-folder-collapsed" actionListener="#{messengerController.markAsNotRead()}" />
+                </p:contextMenu>
+
+            </h:form>
+
+
+            <h:form id="dialogForm">
+                <p:dialog id="messageDetails" header="#{msg['messageDetails']}" widgetVar="dlg2" height="450" width="70%" appendTo="@(body)" modal="true" >
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="width: 150px;">
+                                <p:outputLabel value="#{msg['sender']}" />
+                            </p:column>
+                            <p:column style="width: 90%;">
+                                <p:outputLabel value="#{item.sender != null ? item.sender.c2h.c2r12.concat(' ').concat(item.sender.c2h.c2r14) : msg['systemMessageSender']}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="#{msg['date']}" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{messengerController.selected.dateCreated}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="#{msg['title']}" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{messengerController.selected.title}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="vertical-align: top;">
+                                <p:outputLabel value="#{msg['content']}" />
+                            </p:column>
+                            <p:column style="padding: 15px 10px;">
+                                <h:outputText value="#{messengerController.selected.content}" escape="false" />
+
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="#{msg['attachments']}" />
+                            </p:column>
+                            <p:column>
+                                <p:dataTable id="attachmentsTable" value="#{messengerController.selected.attachments}" var="item">
+                                    <p:column headerText="#{msg['file']}">
+                                        <p:outputLabel value="#{item.name}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msg['size']}" style="width: 150px; text-align:center;">
+                                        <p:outputLabel value="N/A"/>
+                                    </p:column>
+                                    <p:column style="width: 100px; text-align:center;">
+<!--                                        <p:commandButton immediate="true" update="attachmentsTable" process="attachmentsTable" value="#{msg['download']}" icon="ui-icon-arrowthick-1-s">
+                                            <p:fileDownload value="#{downloadBean.getFileFromFS(item.name)}" contentDisposition="attachment"/>
+                                        </p:commandButton>-->
+                                        <p:commandLink ajax="false" value="#{msg['prevzemi']}"  immediate="true">
+                                            <p:fileDownload value="#{downloadBean.getFileFromFS(item.name)}"/>
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+
+                </p:dialog>
+            </h:form>
+
+
+
+        </ui:define>
+    </ui:composition>
+</html>
+

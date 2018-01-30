@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+    <!-- INTERFACE -->
+    <cc:interface >
+        <cc:attribute name="controller" required="true" />
+        <cc:attribute name="item" required="true" />
+        <cc:attribute name="updateSelect" default="@form" />
+        <cc:attribute name="updateDelete" default="@form" />
+        <cc:attribute name="selectOutcome" />
+        <cc:attribute name="deleteEnabled" default="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+       <div class="ui-grid">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                    <p:commandButton rendered="#{empty cc.attrs.selectOutcome}"
+                                     id="select"
+                                     action="#{cc.attrs.controller.setSelectedItem(cc.attrs.item)}"
+                                     update="#{cc.attrs.updateSelect}"
+                                     icon="ui-icon-document-b" >
+                    </p:commandButton>
+
+                    <p:button icon="ui-icon-folder-open"
+                              rendered="#{not empty cc.attrs.selectOutcome}"
+                              outcome="#{cc.attrs.selectOutcome}" >
+                        <cc:insertChildren />
+                    </p:button>
+                </div>
+            </div>
+        </div>
+    </cc:implementation>
+</html>

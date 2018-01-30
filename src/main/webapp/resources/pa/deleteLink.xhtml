@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+    <!-- INTERFACE -->
+    <cc:interface >
+        <cc:attribute name="action" targets="deleteLink" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:commandLink id="deleteLink" value="#{msg['delete']}" update="@form" >
+            <p:confirm header="#{msg.Confirmation}" message="#{msg.are_you_sure_delete}" icon="ui-icon-alert" />
+        </p:commandLink>
+        <p:confirmDialog global="true" styleClass="widthControlledDialog noBorderHeader" >
+            <p:commandButton value="#{msg.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="#{msg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+    </cc:implementation>
+</html>

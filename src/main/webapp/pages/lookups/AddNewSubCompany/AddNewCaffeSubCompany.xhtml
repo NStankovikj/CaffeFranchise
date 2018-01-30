@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+
+<h:form id="addOrganizationForm">
+    <p:dialog widgetVar="addOrganizationDialog"
+              id="addOrganizationLookupID"
+              dynamic="true"
+              closeOnEscape="true"
+              width="900px"
+              draggable="false"
+              position="center center"
+              header="#{msg.addNewCaffeSubCompany}"
+              resizable="false"
+              modal="true"
+              styleClass="widthControlledDialog heightControlledDialog noBorderHeader"
+    >
+        <p:ajax event="close"
+                update="#{p:component('organizationTable')} #{p:component('addOrganizationPanelGroup')}"
+        />
+        <h:panelGroup id="addOrganizationPanelGroup">
+            <p:panel styleClass="styledInnerPanel"
+                     style="padding-top: 0px; margin-top: 0px">
+                <div class="row">
+                    <div class="col-md-6 columnPadding">
+                        <div class="form-group">
+                            <p:outputLabel for="nameE" value="#{msg['CaffeSubCompanyName']}"/>
+                            <p:inputText id="nameE"
+                                         value="#{caffeSubCompanyController.caffeSubCompany.name}"
+                                         styleClass="form-control"
+                                         maxlength="50"
+                                         required="true"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 columnPadding">
+                        <div class="form-group">
+                            <p:outputLabel for="type" value="#{msg['EmployeeCompany']}"/>
+                            <p:selectOneMenu id="type"
+                                             value="#{caffeSubCompanyController.caffeSubCompany.caffeCompany}"
+                                             required="true"
+                            >
+                                <f:selectItem itemLabel="#{msg['select']}"
+                                              itemValue="#{null}"
+                                              noSelectionOption="true"/>
+                                <f:selectItems value="#{caffeCompanyController.caffeCompanyList}"
+                                               var="typevar"
+                                               itemValue="#{typevar}"
+                                               itemLabel="#{typevar.name}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </p:panel>
+            <p:commandButton styleClass="#{mainBean.userSesion.skin} skinnedButton"
+                             value="#{msg.save}"
+                             style="float: right"
+                             actionListener="#{caffeSubCompanyController.saveNewCaffeSubCompany()}"
+                             update="#{p:component('organizationTable')} #{p:component('addOrganizationPanelGroup')}"
+                             oncomplete="PF('addOrganizationDialog').hide()"
+                             process="@form"
+            />
+        </h:panelGroup>
+    </p:dialog>
+</h:form>
+</html>

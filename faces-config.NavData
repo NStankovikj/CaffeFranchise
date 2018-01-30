@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="resources/pa/calendar.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="resources/pa/selectItem.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="resources/pa/crudComponent.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="resources/pa/numberInput.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="resources/pa/booleanStatusChange.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="pages/lookups/Gradovi/Gradovi.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="resources/pa/selectDelete.xhtml" x="650" y="1200" zoom="true"/>
+        <Node id="pages/template/header.xhtml" x="1400" y="900" zoom="true"/>
+        <Node id="errorpages/expired.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="resources/viewComponent.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="resources/pa/crudComponentWithSecondPanel.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="resources/pa/booleanStatusOut.xhtml" x="2900" y="150" zoom="true"/>
+        <Node id="resources/pa/report.xhtml" x="1900" y="450" zoom="true"/>
+        <Node id="index.xhtml" x="1400" y="1200" zoom="true"/>
+        <Node id="errorpages/500.xhtml" x="2650" y="300" zoom="true"/>
+        <Node id="pages/template/mainMenu.xhtml" x="2150" y="300" zoom="true"/>
+        <Node id="resources/pa/uniqueInputText.xhtml" x="150" y="1500" zoom="true"/>
+        <Node id="pages/template/themeMenu.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="resources/pa/dictionary.xhtml" x="650" y="1650" zoom="true"/>
+        <Node id="pages/lookups/Gradovi/GradoviInput.xhtml" x="900" y="900" zoom="true"/>
+        <Node id="pages/lookups/Drzavi/Drzavi.xhtml" x="2400" y="300" zoom="true"/>
+        <Node id="pages/lookups/Drzavi/DrzaviColumns.xhtml" x="900" y="1350" zoom="true"/>
+        <Node id="pages/lookups/Drzavi/DrzaviInput.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="*" x="1150" y="750" zoom="true"/>
+        <Node id="pages/main.xhtml" x="2400" y="150" zoom="true"/>
+        <Node id="resources/pa/deleteLink.xhtml" x="1150" y="1050" zoom="true"/>
+        <Node id="resources/pa/deleteButton.xhtml" x="2150" y="150" zoom="true"/>
+        <Node id="resources/pa/outputLabel.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="resources/pa/numberOut.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="errorpages/runtime.xhtml" x="2650" y="150" zoom="true"/>
+        <Node id="resources/pa/monthYearInput.xhtml" x="150" y="1800" zoom="true"/>
+        <Node id="resources/pa/inlineCrudComponent.xhtml" x="1900" y="750" zoom="true"/>
+        <Node id="resources/pa/outputText.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="resources/pa/confirmRefreshViews.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="resources/pa/dateOut.xhtml" x="1650" y="750" zoom="true"/>
+        <Node id="pages/lookups/Gradovi/GradoviColumns.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="pages/login/login.xhtml" x="400" y="1650" zoom="true"/>
+        <Node id="resources/pa/inputComponent.xhtml" x="2900" y="300" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

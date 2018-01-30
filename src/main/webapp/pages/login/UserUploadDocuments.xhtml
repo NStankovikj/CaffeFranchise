@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<p:dialog widgetVar="userUploadDocumentsDialog"
+          closeOnEscape="true"
+          width="1000px"
+          draggable="false"
+          position="center center"
+          resizable="false"
+          modal="true"
+          header="#{msg.newLiteratureReference}"
+          styleClass="widthControlledDialog noBorderHeader">
+    <p:ajax event="close"
+            update="userUploadDocumentsList addLiteratureReferencePanel"
+    />
+    <ui:include src="/pages/login/AddUserDocument.xhtml"/>
+
+</p:dialog>
+<h:panelGroup id="userUploadDocumentsGroup">
+    <p:panel id="userUploadDocumentsPanel"
+             styleClass="styledInnerPanel"
+             style="margin-top: 0px; margin-left: 0px">
+        <f:facet name="header">
+            <p:commandButton id="userUploadDocumentsBtn"
+                             value="#{msg.addDocument}"
+                             style="float:right!important;"
+                             icon="fa fa-plus"
+                             styleClass="#{mainBean.userSesion.skin} skinnedButton"
+                             onclick="PF('userUploadDocumentsDialog').show();"
+                             action="#{icsrController.ric.addLiteratureReference()}"
+            >
+            </p:commandButton>
+        </f:facet>
+        <p:dataTable id="userUploadDocumentsList"
+                     value="#{icsrController.ric.c4List}"
+                     var="item"
+                     paginatorAlwaysVisible="false"
+                     rowKey="#{item}"
+                     rows="5"
+                     styleClass="#{mainBean.userSesion.skin != null ? mainBean.userSesion.skin : adminConfigLocal.skin} drugTableStyle">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.literatureReference}"/>
+                </f:facet>
+                <h:outputText value="#{item.c4r1}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.includedDocuments}"/>
+                </f:facet>
+                <ul style="list-style: none;">
+                    <ui:repeat value="#{item.documents}" var="doc">
+                        <li>
+                            <span class="fa fa-download" style="margin-right: 5px;"></span>
+                            <p:commandLink ajax="false" value="#{doc.name}" immediate="true">
+                                <p:fileDownload value="#{downloadBean.getFileFromFS(doc.name)}"/>
+                            </p:commandLink>
+                        </li>
+                    </ui:repeat>
+                </ul>
+                <h:outputText value="#{item.c4r2}"/>
+            </p:column>
+            <p:column style="width: 110px;">
+                <p:commandButton action="#{icsrController.ric.deleteLiteratureReference(item)}"
+                                 value="#{msg['delete']}"
+                                 icon="fa fa-trash"
+                                 update="userUploadDocumentsList"
+                                 style="float: right"
+                                 styleClass="btn btn-sm btn-danger"
+                >
+                    <p:confirm header="#{msg.Confirmation}"
+                               message="#{msg.datumDoMsg}"
+                               icon="ui-icon-alert"/>
+
+                </p:commandButton>
+                <p:confirmDialog global="true" styleClass="widthControlledDialog noBorderHeader">
+                    <p:commandButton value="#{msg.yes}"
+                                     type="button"
+                                     styleClass="ui-confirmdialog-yes btn-danger"
+                                     icon="ui-icon-check"/>
+                    <p:commandButton value="#{msg.no}"
+                                     type="button"
+                                     styleClass="ui-confirmdialog-no"
+                                     icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </p:column>
+        </p:dataTable>
+    </p:panel>
+</h:panelGroup>
+</html>

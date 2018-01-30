@@ -1,0 +1,17 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+
+>
+    <body>
+
+        <p:column filterBy="#{item.naziv}" headerText="#{msg['Naziv']}">
+            <h:outputText value="#{item.naziv}"/>
+        </p:column>
+
+        <p:column  headerText="#{msg['Drzava']}" >
+            <h:outputText value="#{item.drzava.naziv}"/>
+        </p:column>
+    </body>
+</html>

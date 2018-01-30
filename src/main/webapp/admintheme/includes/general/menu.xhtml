@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.locale}" encoding="UTF-8" contentType="text/html" >
+        <ul class="sidebar-menu">
+            <li>
+                <p:link href="/pages/menuPages/dashboard.xhtml" onclick="clearBreadCrumbs()">
+                    <i class="fa fa-home"></i>
+                    <span>Home</span>
+                </p:link>
+            </li>
+
+            <li class="header">
+                #{msg['ICSR']}
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/IcsrReport.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['ICSR']}</span> 
+                </p:link>
+            </li>
+            <li>
+                <p:outputLabel value="#{msg['reportInfo']}"
+                               styleClass="requiredLabel">
+                    <p:link href="/pages/IcsrReport/0ReportInfo/ReportInfo.xhtml"
+                        rendered="true"
+                        >
+                                      
+                </p:link>
+                    </p:outputLabel> 
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/1Patient/Patient.xhtml"
+                        rendered="true"
+                       
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['patient']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/2TestsAndProcedures/TestsAndProcedures.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['testsAndProcedures']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/3RelevantMedicalHistory/RelevantMedicalHistory.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['relevantMedicalHistory']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/4RelevantPastDrugTherapy/RelevantPastDrugTherapy.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['relevantPastDrugTherapy']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/5Reactions/Reactions.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['reactions']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/6Drugs/Drugs.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['drugs']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/IcsrReport/7Assessment/Assessment.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list"></i>
+                    <span>#{msg['assessment']}</span>
+                </p:link>
+            </li>
+        </ul>
+
+
+    </f:view>
+</ui:composition>

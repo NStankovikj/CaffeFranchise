@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+
+    <ui:composition template="/admintheme/includes/horizontal/template.xhtml">
+        <ui:define name="title">
+            <p:outputLabel value="Theme settings" />
+        </ui:define>
+
+        <ui:define name="body">
+
+            <p:panel>
+                <h3>Change skin:</h3>
+                <h:form>
+                    <table id="layout-skins-list" class="table table-striped bring-up nth-2-center"
+                           style="max-width: 300px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 210px;">Skin Class</th>
+                                <th>Preview</th>
+                            </tr>
+                        </thead>
+                        <!--IF YOU WANT LIGHT SKINS, COMMENT THIS <TBODY> AND UNCOMMENT THE NEXT ONE BELOW IT-->
+                        <tbody>
+                            <tr>
+                                <td><code>skin-blue</code></td>
+                                <td>
+                                    <p:commandLink styleClass="btn btn-primary btn-xs"
+                                                   onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"
+                                                   oncomplete="$('body').addClass('skin-blue')"
+                                                   process="@this" update="@form" partialSubmit="true"
+                                                   actionListener="#{mainBean.setUsrSesSkin('skin-blue')}">
+                                        <i class="fa fa-eye"></i>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>skin-yellow</code></td>
+                                <td>
+                                    <p:commandLink styleClass="btn btn-warning btn-xs"
+                                                   onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"
+                                                   oncomplete="$('body').addClass('skin-yellow')"
+                                                   process="@this" update="@form" partialSubmit="true"
+                                                   actionListener="#{mainBean.setUsrSesSkin('skin-yellow')}">
+                                        <i class="fa fa-eye"></i>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>skin-green</code></td>
+                                <td>
+                                    <p:commandLink styleClass="btn btn-success btn-xs"
+                                                   onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"
+                                                   oncomplete="$('body').addClass('skin-green')"
+                                                   process="@this" update="@form" partialSubmit="true"
+                                                   actionListener="#{mainBean.setUsrSesSkin('skin-green')}">
+                                        <i class="fa fa-eye"></i>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>skin-purple</code></td>
+                                <td>
+                                    <p:commandLink styleClass="btn bg-purple btn-xs"
+                                                   onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"
+                                                   oncomplete="$('body').addClass('skin-purple')"
+                                                   process="@this" update="@form" partialSubmit="true"
+                                                   actionListener="#{mainBean.setUsrSesSkin('skin-purple')}">
+                                        <i class="fa fa-eye"></i>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>skin-red</code></td>
+                                <td>
+                                    <p:commandLink styleClass="btn btn-danger btn-xs"
+                                                   onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"
+                                                   oncomplete="$('body').addClass('skin-red')"
+                                                   process="@this" update="@form" partialSubmit="true"
+                                                   actionListener="#{mainBean.setUsrSesSkin('skin-red')}">
+                                        <i class="fa fa-eye"></i>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>skin-teal</code></td>
+                                <td>
+                                    <p:commandLink styleClass="btn btn-teal btn-xs"
+                                                   onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"
+                                                   oncomplete="$('body').addClass('skin-teal')"
+                                                   process="@this" update="@form" partialSubmit="true"
+                                                   actionListener="#{mainBean.setUsrSesSkin('skin-teal')}">
+                                        <i class="fa fa-eye"></i>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>skin-black</code></td>
+                                <td>
+                                    <p:commandLink styleClass="btn bg-black btn-xs"
+                                                   onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"
+                                                   oncomplete="$('body').addClass('skin-black')"
+                                                   process="@this" update="@form" partialSubmit="true"
+                                                   actionListener="#{mainBean.setUsrSesSkin('skin-black')}">
+                                        <i class="fa fa-eye"></i>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!--IF YOU WANT LIGHT SKINS, COMMENT THIS <TBODY> AND UNCOMMENT THE NEXT ONE BELOW IT-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-blue</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-primary btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-blue')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-blue')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-blue-light</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-primary btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-blue-light')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-blue-light')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-yellow</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-warning btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-yellow')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-yellow')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-yellow-light</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-warning btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-yellow-light')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-yellow-light')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-green</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-success btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-green')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-green')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-green-light</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-success btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-green-light')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-green-light')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-purple</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn bg-purple btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-purple')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-purple')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-purple-light</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn bg-purple btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-purple-light')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-purple-light')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-red</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-danger btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-red')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-red')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-red-light</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-danger btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-red-light')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-red-light')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-teal</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-teal btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-teal')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-teal')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-teal-light</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn btn-teal btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-teal-light')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-teal-light')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-black</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn bg-black btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-black')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-black')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td><code>skin-black-light</code></td>-->
+                            <!--<td>-->
+                                <!--<p:commandLink styleClass="btn bg-black btn-xs"-->
+                                               <!--onclick="$('body').removeClass('#{mainBean.userSesion.skin}');"-->
+                                               <!--oncomplete="$('body').addClass('skin-black-light')"-->
+                                               <!--process="@this" update="@form" partialSubmit="true"-->
+                                               <!--actionListener="#{mainBean.setUsrSesSkin('skin-black-light')}">-->
+                                    <!--<i class="fa fa-eye"></i>-->
+                                <!--</p:commandLink>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    </table>
+
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

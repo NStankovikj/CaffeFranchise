@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+
+<h:form id="userUploadDocumentsDialogForm">
+    <p:dialog widgetVar="userUploadDocumentsDialog"
+              closeOnEscape="true"
+              width="600px"
+              draggable="false"
+              position="center center"
+              resizable="false"
+              modal="true"
+              styleClass="widthControlledDialog noBorderHeader">
+        <p:ajax event="close"
+                update="@form"
+        />
+
+        <p:panel id="addUserDocumentsPanel"
+                 styleClass="styledInnerPanel"
+                 style="margin-top: 0px; margin-left: 0px">
+
+            <div class="row columnPadding">
+                <p:outputLabel for="doc" value="Attach documents"/>
+                <p:dataTable paginatorAlwaysVisible="false" value="#{registrationController.userRequestRegistration.documents}"
+                             var="document">
+                    <p:column>
+                        <p:outputLabel value="#{document.name}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:fileUpload id="doc"
+                              fileUploadListener="#{registrationController.handleAttachmentsUploadLiteratureReference}"
+                              dragDropSupport="true"
+                              multiple="false"
+                              sizeLimit="10000000000000"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png|txt|pdf|zip|rar|docx|doc|xls?x|odt)$/" />
+            </div>
+        </p:panel>
+        <p:commandButton id="saveUserDocumentsBtn"
+                         value="Save"
+                         style="float:right"
+                         styleClass="#{mainBean.userSesion.skin} skinnedButton"
+                         update="#{p:component('userUploadDocumentsList')} @form"
+                         onclick="PF('userUploadDocumentsDialog').hide();"
+        />
+    </p:dialog>
+</h:form>
+
+
+</html>

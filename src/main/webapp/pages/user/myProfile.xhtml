@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<ui:composition template="/admintheme/includes/horizontal/template.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{msg['title.profile']}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="myPorfileForm">
+            <p:growl id="growlMyProfile" autoUpdate="true"/>
+            <h:panelGroup id="myProfile">
+                <p:panel header="#{msg.userInfo}"
+                         styleClass="styledInnerPanel">
+                    <f:facet name="header">
+                        <h:outputLabel value="#{msg.userInfo}"
+                                       style="margin-bottom: 0px;margin-top: 7px;"/>
+                    </f:facet>
+                    <div class="row">
+                        <div class="col-md-6 columnPadding">
+                            <div class="form-group">
+                                <p:outputLabel for="username" value="#{msg.username}"/>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p:inputText id="username"
+                                                     value="#{myProfileController.user.username}"
+                                                     disabled="true"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 columnPadding">
+                            <div class="form-group">
+                                <p:outputLabel for="organization" value="#{msg.userOrganisation}"/>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p:selectOneMenu id="organization"
+                                                         disabled="true"
+                                                         value="#{myProfileController.user.organization}"
+                                        >
+                                            <f:selectItem itemLabel="#{msg['select']}"
+                                                          itemValue="#{null}"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{organizationController.organizationList}"
+                                                           var="c2r21Var"
+                                                           itemValue="#{c2r21Var}"
+                                                           itemLabel="#{c2r21Var.name}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 columnPadding">
+                            <div class="form-group">
+                                <p:outputLabel for="ime" value="#{msg['userName']}"/>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p:inputText id="ime"
+                                                       value="#{myProfileController.user.ime}"
+                                                       styleClass="form-control"
+                                                       disabled="true">
+                                        </p:inputText>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 columnPadding">
+                            <div class="form-group">
+                                <p:outputLabel for="prezime" value="#{msg['userFamilyName']}"/>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p:inputText id="prezime"
+                                                       value="#{myProfileController.user.prezime}"
+                                                       styleClass="form-control"
+                                                       disabled="true">
+                                        </p:inputText>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 columnPadding">
+                            <div class="form-group">
+                                <p:outputLabel for="email" value="#{msg['userEmailAddress']}"/>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p:inputText id="email"
+                                                     value="#{myProfileController.user.email}"
+                                                     styleClass="form-control"
+                                                     disabled="true">
+                                        </p:inputText>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 columnPadding">
+                            <div class="form-group">
+                                <p:outputLabel for="telephone" value="#{msg['userTelephone']}"/>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p:inputText id="telephone"
+                                                       value="#{myProfileController.user.telefon}"
+                                                       styleClass="form-control"
+                                                       disabled="true">
+                                        </p:inputText>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
+

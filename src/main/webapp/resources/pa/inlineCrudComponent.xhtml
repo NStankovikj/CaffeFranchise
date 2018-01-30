@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pa="http://xmlns.jcp.org/jsf/composite/pa"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<!--    author Nenad Stankovik   -->
+
+<!-- INTERFACE -->
+<cc:interface   >
+    <cc:attribute name="controller"
+                  shortDescription="Enter the controller for your crud here"
+                  required="true"  />
+    <cc:attribute name="columnsPage"
+                  shortDescription="Enter path to the xhtml page containing the datatable columns wrapped in a body tag"
+                  required="true" />
+    <cc:attribute name="inputPage"
+                  shortDescription="Enter path to the xhtml page containing the input row wrapped in a body tag"
+                  required="true" />
+    <cc:attribute name="datatableSource"
+                  shortDescription="Set the source for the datatable here"
+                  default="#{cc.attrs.controller.lazyDataModel}"  />
+    <cc:attribute name="title"
+                  shortDescription="If you want this component to have a title above it, write it here" />
+    <cc:attribute name="selectionMode"
+                  shortDescription="single or multiple.If you don't want selection dont write this attribute but
+                      if you write single or multiple, you must also fill selectionObject with an appropriate object/list" />
+    <cc:attribute name="selectionObject"
+                  shortDescription="The object or list which is to be filled by the selection"/>
+    <cc:attribute name="styleClassForDatatable"
+    />
+
+</cc:interface>
+<!-- IMPLEMENTATION -->
+<cc:implementation id="componentImpl" >
+
+    <p:outputLabel  rendered="#{not empty cc.attrs.title}" class="naslov">#{msg[cc.attrs.title]}</p:outputLabel>
+    <h:form id="crudForm">
+        <p:growl id="growlInComponent" sticky="false" showDetail="false" />
+        <c:if test="#{cc.getValueExpression('selectionObject') ne null}">
+            <p:dataTable id="dataTable1"
+                         styleClass="#{cc.attrs.styleClassForDatatable}"
+                         rendered="#{not empty cc.attrs.controller.selected}"
+                         widgetVar="tableWidget"
+                         value="#{cc.attrs.datatableSource}"
+                         var="item"
+                         rowKey="#{item.id}"
+                         lazy="true"
+                         selection="#{cc.attrs.selectionObject}"
+                         emptyMessage="#{msg['noRecordsFound']}"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorTemplate="#{msg['table.rowsPerPage']} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} &nbsp;&nbsp; #{msg['table.jumpToPage']} &nbsp;&nbsp; {JumpToPageDropdown}"
+                         currentPageReportTemplate="(#{msg['table.page']}: {currentPage}/{totalPages})"
+                         rowsPerPageTemplate="10,25,50,100"
+            >
+                <p:ajax event="rowSelectRadio" />
+                <p:ajax event="rowSelectCheckbox" />
+                <p:column rendered="#{not empty cc.attrs.selectionMode}"
+                          selectionMode="#{cc.attrs.selectionMode}"
+                          style="width:16px;text-align:center">
+                </p:column>
+
+                <ui:include src="#{cc.attrs.columnsPage}" />
+                <p:column width="80">
+                    <pa:selectDelete controller="#{cc.attrs.controller}"
+                                     item="#{item}"
+                                     updateSelect="#{p:component('newPane')} #{p:component('crudForm')}"
+                                     updateDelete="#{p:component('newPane')} #{p:component('crudForm')}"
+                    />
+                </p:column>
+            </p:dataTable>
+        </c:if>
+        <c:if test="#{cc.getValueExpression('selectionObject') eq null}">
+            <p:dataTable id="dataTable"
+                         rendered="#{not empty cc.attrs.controller.selected}"
+                         class="sreden"
+                         styleClass="#{cc.attrs.styleClassForDatatable}"
+                         widgetVar="tableWidget"
+                         value="#{cc.attrs.datatableSource}"
+                         var="item"
+                         rowKey="#{item}"
+                         lazy="true"
+                         rows="15"
+                         emptyMessage="#{msg['noRecordsFound']}"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorTemplate="#{msg['table.rowsPerPage']} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} &nbsp;&nbsp; #{msg['table.jumpToPage']} &nbsp;&nbsp; {JumpToPageDropdown}"
+                         currentPageReportTemplate="(#{msg['table.page']}: {currentPage}/{totalPages})"
+                         rowsPerPageTemplate="10,25,50,100"
+            >
+
+                <ui:include src="#{cc.attrs.columnsPage}" />
+                <p:column width="120">
+                    <pa:selectDelete controller="#{cc.attrs.controller}"
+
+                                     item="#{item}"
+
+                                     updateSelect="#{p:component('newPane')} #{p:component('crudForm')} "
+                                     updateDelete="#{p:component('newPane')} #{p:component('crudForm')}"
+                    />
+                </p:column>
+            </p:dataTable>
+        </c:if>
+
+    </h:form>
+    <p:panel id="newPane"
+             styleClass="noPaddingPanel"
+             style="padding:0;" >
+        <p:outputPanel rendered="#{not empty cc.attrs.controller.selected}">
+            <h:form id="testEditForm" >
+                <p:panelGrid style="width: 100%;table-layout: fixed; top: -102px;
+                                 position: relative;" >
+                    <p:row>
+                        <ui:include src="#{cc.attrs.inputPage}" />
+
+                        <p:column styleClass="Width">
+                            <p:commandButton action="#{cc.attrs.controller.updateSelected()}"
+                                             value="#{msg['update']}"
+                                             style="margin-left: 15%; width: 110px;"
+                                             id="componentSubmitButton"
+                                             update="
+                                                 #{p:component('newPane')}
+                                                 #{p:component('crudForm')}"
+                            />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:outputPanel>
+    </p:panel>
+</cc:implementation>
+</html>

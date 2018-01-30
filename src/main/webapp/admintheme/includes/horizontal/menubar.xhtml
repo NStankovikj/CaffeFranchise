@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form>
+
+        <ul class="nav navbar-nav">
+            <h:panelGroup rendered="false">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg.reports}<span
+                            class="caret"></span>
+                        <i class="fa fa-list"/>
+                    </a>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <p:commandLink id="newReport" actionListener="#{icsrController.initICSR()}">
+                                <h:outputText class="fixFontCss fa fa-plus-circle"/>
+                                <h:outputText value=" #{msg.newReport}"/>
+                            </p:commandLink>
+                        </li>
+                        <li>
+                            <p:link href="/pages/IcsrReport/DraftReports.xhtml" rendered="true">
+                                <i class="fa fa-list"></i>
+                                <span>#{msg['draftReports']}</span>
+                            </p:link>
+                        </li>
+                        <li>
+                            <p:link href="/pages/IcsrReport/AllSubmittedReports.xhtml" rendered="true">
+                                <i class="fa fa-check"></i>
+                                <span>#{msg['allReportsSubmitted']}</span>
+                            </p:link>
+                        </li>
+                        <li>
+                            <p:link href="/pages/IcsrReport/ArchivedReports.xhtml" rendered="true">
+                                <i class="fa fa-archive"></i>
+                                <span>#{msg['archivedReports']}</span>
+                            </p:link>
+                        </li>
+                    </ul>
+                </li>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{mainBean.checkRender()}">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg.adminT}<span
+                            class="caret"></span>
+                        <i class="fa fa-user"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" style="width:225px">
+                        <h:panelGroup rendered="#{mainBean.checkRender()}">
+                            <li>
+                                <p:link href="/pages/administration/addUser.xhtml"
+                                        rendered="true"
+                                >
+                                    <i class="fa fa-user-plus"></i>
+                                    <span>#{msg['users']}</span>
+                                </p:link>
+                            </li>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{mainBean.checkRender()}">
+                            <li>
+                                <p:link href="/pages/administration/listUserRequestRegistration.xhtml"
+                                        rendered="true"
+                                >
+                                    <i class="fa fa-registered"></i>
+                                    <span>#{msg['title.listUserRequestRegistration']}</span>
+                                </p:link>
+                            </li>
+                        </h:panelGroup>
+                        <li>
+                            <p:link href="/pages/user/notifikacii.xhtml"
+                                    rendered="false"
+                            >
+                                <i class="fa fa-bell"></i>
+                                <span>#{msg['title.notificationQueue']}</span>
+                            </p:link>
+                        </li>
+                        <li>
+                            <p:link href="/admintheme/themeSettings.xhtml"
+                                    rendered="true"
+                            >
+                                <i class="fa fa-cogs"></i>
+                                <span>Theme settings</span>
+                            </p:link>
+                        </li>
+                        <h:panelGroup rendered="#{mainBean.checkRender()}">
+                            <li>
+                                <p:link href="/pages/lookups/AddNewOrganization/Organization.xhtml" rendered="true">
+                                    <i class="fa fa-briefcase"></i>
+                                    <span>Organization</span>
+                                </p:link>
+                            </li>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{mainBean.checkRender()}">
+                            <li>
+                                <p:link href="/pages/lookups/AddNewProduct/Product.xhtml" rendered="true">
+                                    <i class="fa fa-product-hunt"></i>
+                                    <span>Products</span>
+                                </p:link>
+                            </li>
+                        </h:panelGroup>
+                    </ul>
+
+                </li>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{mainBean.checkRender()}">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg.lookups}<span
+                            class="caret"></span>
+                        <i class="fa fa-laptop"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" style="width:190px">
+                        <li>
+                            <p:link href="/pages/lookups/CbOrganizationType/CbOrganizationType.xhtml"
+                                    rendered="true"
+                            >
+                                <i class="fa fa-globe"></i>
+                                <span>#{msg['NaslovCbOrganizationType']}</span>
+                            </p:link>
+                        </li>
+
+                        <li>
+                            <p:link href="/pages/lookups/AddNewProduct/Product.xhtml"
+                                    rendered="true"
+                            >
+                                <i class="fa fa-product-hunt"></i>
+                                <span>#{msg['Product']}</span>
+                            </p:link>
+                        </li>
+
+                        <li>
+                            <p:link href="/pages/lookups/AddNewCaffeCompany/CaffeCompany.xhtml"
+                                    rendered="true"
+                            >
+                                <i class="fa fa-coffee"></i>
+                                <span>#{msg['CaffeCompany']}</span>
+                            </p:link>
+                        </li>
+
+                        <li>
+                            <p:link href="/pages/lookups/AddNewSubCompany/CaffeSubCompany.xhtml"
+                                    rendered="true"
+                            >
+                                <i class="fa fa-coffee"></i>
+                                <span>#{msg['CaffeSubCompany']}</span>
+                            </p:link>
+                        </li>
+
+                        <li>
+                            <p:link href="/pages/lookups/AddNewEmployee/Employee.xhtml"
+                                    rendered="true"
+                            >
+                                <i class="fa fa-user"></i>
+                                <span>#{msg['Employee']}</span>
+                            </p:link>
+                        </li>
+
+
+
+
+
+                    </ul>
+                </li>
+            </h:panelGroup>
+        </ul>
+    </h:form>
+
+
+    <h:outputScript name="js/mediator.js"></h:outputScript>
+    <h:outputScript>
+        var myMediator = new Mediator();
+        if (window.WebSocket) {
+        <!--var ws = new WebSocket("ws://10.69.5.22:8080/malmed/notify");-->
+        <!--var ws = new WebSocket("ws://localhost:8080/malmed/notify");-->
+        var ws = new WebSocket("ws://" + "#{mainBean.webSocketAddr}");
+        <!--var ws = new WebSocket("ws://10.102.0.169:8080/malmed/notify");-->
+        ws.onmessage = function(event) {
+        var text = event.data;
+        var json = JSON.parse(event.data);
+        console.log('String response: ' + text);
+        console.log('Json response: ' + json);
+        var func = json["callMethod"];
+        var msg = json["msq"];
+        <!--TODO da se napravi json struktura za da gi hendla razlicnite tipovi na poraki-->
+        myMediator.publish( func, msg );
+        <!--myMediator.publish( 'some event', text );-->
+
+        };
+
+        ws.onopen = function () {
+        console.log('WebSocket onOpen()');
+        ws.send("#{mainBean.userSesion.id}");
+        };
+        } else {
+        console.log("bad luck");
+        }
+
+        // primer za koristenje na mediator
+        var Subscriber = function ExampleSubscriber( myVariable ) {
+        console.log( myVariable );
+        updateMessages({param: myVariable});
+        // PF('maingrowl').renderMessage({'summary': myVariable, 'severity':'info'});
+        // updateMenu();
+        <!--updateInbox();-->
+        $('#messages').append('<div class="ui-messages-error ui-corner-all"><span class="ui-messages-error-icon"></span><ul></ul></div>').children('ul').append('<li><span class="ui-messages-error-summary">' + myVariable + '</span><span class="ui-messages-error-detail">' + '' + '</span></li>');
+        };
+        myMediator.subscribe( 'messenger', Subscriber );
+    </h:outputScript>
+</ui:composition>

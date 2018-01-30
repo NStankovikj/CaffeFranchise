@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/admintheme/includes/horizontal/template.xhtml">
+    <ui:define name="content-begin">
+        <h:form id="viewOrganizationForsdffdsfm">
+
+            <p:fieldset legend="#{msg.CaffeSubCompany}"
+                        styleClass="#{mainBean.userSesion.skin != null ? mainBean.userSesion.skin : adminConfigLocal.skin}">
+                <div class="container-fluid">
+                    <div class="row">
+                        <p:panel styleClass="styledInnerPanel">
+                            <f:facet name="header">
+                                <p:commandButton style="float:right;"
+                                                 value="#{msg['addNewCaffeSubCompany']}"
+                                                 type="button"
+                                                 icon="fa fa-plus"
+                                                 ajax="true"
+                                                 onclick="PF('addOrganizationDialog').show();"
+                                                 styleClass="#{mainBean.userSesion.skin} skinnedButton"/>
+                            </f:facet>
+                            <p:dataTable id="organizationTable"
+                                         styleClass="#{mainBean.userSesion.skin != null ? mainBean.userSesion.skin : adminConfigLocal.skin} drugTableStyle"
+                                         value="#{caffeSubCompanyController.caffeSubCompanyList}"
+                                         var="subCom"
+                                         rowKey="#{primary}"
+                                         paginatorAlwaysVisible="false"
+                            >
+                                <p:column headerText="#{msg['CaffeSubCompanyName']}">
+                                    <p:outputLabel value="#{subCom.name}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['Employees']}">
+                                    <p:dataTable id="organizationTablee"
+                                                 style="width: 600px; margin-left: -12px; margin-top: -12px"
+                                                 styleClass="#{mainBean.userSesion.skin != null ? mainBean.userSesion.skin : adminConfigLocal.skin}"
+                                                 value="#{subCom.employee}"
+                                                 var="employee"
+                                                 rowKey="#{primary}"
+                                                 paginatorAlwaysVisible="false"
+                                    >
+                                        <p:column>
+                                            <p:outputLabel value="#{employee.ime.concat('').concat(' ').concat(employee.prezime != null ? employee.prezime : '' )}"/>
+                                        </p:column>
+                                    </p:dataTable>
+
+
+                                </p:column>
+
+                                <p:column style="width: 220px;"
+                                >
+                                    <p:commandButton styleClass="#{mainBean.userSesion.skin} skinnedButton btn-sm"
+                                                     value="#{msg['edit']}"
+                                                     oncomplete="PF('viewEmployeeDialog').show();"
+                                                     action="#{employeeController.setSelected(employee)}"
+                                                     icon="fa fa-search"
+                                                     update="viewOrganizationForm"
+                                                     rendered="#{employee.ime != '--MSK--' and
+                                                 employee.ime != '--ASKU--' and
+                                                 employee.ime != '--NASK--'}"
+                                    />
+                                    <p:commandButton styleClass="btn btn-sm btn-danger"
+                                                     value="#{msg['delete']}"
+                                                     icon="fa fa-trash"
+                                                     update="#{p:component('organizationTable')}"
+                                                     action="#{caffeSubCompanyController.removeCaffeSubCompany(subCom)}"
+                                                     rendered="#{employee.ime != '--MSK--' and
+                                                 employee.ime != '--ASKU--' and
+                                                 employee.ime != '--NASK--'}"
+                                    >
+                                        <p:confirm header="#{msg.Confirmation}"
+                                                   message="#{msg.datumDoMsg}"
+                                                   icon="ui-icon-alert"/>
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true">
+                                        <p:commandButton value="#{msg.yes}"
+                                                         type="button"
+                                                         styleClass="ui-confirmdialog-yes btn-danger"
+                                                         icon="ui-icon-check"/>
+                                        <p:commandButton value="#{msg.no}"
+                                                         type="button"
+                                                         styleClass="ui-confirmdialog-no"
+                                                         icon="ui-icon-close"/>
+                                    </p:confirmDialog>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:fieldset>
+        </h:form>
+        <ui:include src="/pages/lookups/AddNewEmployee/ViewEmployee.xhtml"/>
+        <ui:include src="/pages/lookups/AddNewSubCompany/AddNewCaffeSubCompany.xhtml"/>
+
+    </ui:define>
+</ui:composition>
+</html>

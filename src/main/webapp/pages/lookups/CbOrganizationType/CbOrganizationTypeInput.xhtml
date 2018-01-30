@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:pa="http://xmlns.jcp.org/jsf/composite/pa"
+>
+<body>
+<p:column>
+    <pa:uniqueInputText id="code"
+                        styleClass="controllerWidth"
+                        displayLabel="false"
+                        currentEntity="#{cbOrganizationTypeController.selected}"
+                        value="#{cbOrganizationTypeController.selected.code}"
+                        uniqueColumn="code"
+    />
+</p:column>
+
+<p:column>
+    <pa:uniqueInputText id="label"
+                        styleClass="controllerWidth"
+                        displayLabel="false"
+                        currentEntity="#{cbOrganizationTypeController.selected}"
+                        value="#{cbOrganizationTypeController.selected.label}"
+                        uniqueColumn="label"
+    />
+</p:column>
+<p:column>
+    <p:selectBooleanCheckbox  value="#{cbOrganizationTypeController.selected.isActive}" />
+</p:column>
+
+</body>
+</html>

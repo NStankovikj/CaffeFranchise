@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.locale}" encoding="UTF-8" contentType="text/html" >
+        <ul class="sidebar-menu" >
+            <li>
+                <p:link href="/index.xhtml" onclick="clearBreadCrumbs()">
+                    <i class="fa fa-home"></i>
+                    <span>Home</span>
+                </p:link>
+            </li>
+            <li class="header">
+                #{msg['settings']}
+            </li>
+            <li>
+                <p:link href="/pages/administration/userType.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-user-plus"></i>
+                    <span>#{msg['title.userType']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/administration/addUser.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-user-plus"></i>
+                    <span>#{msg['title.addUser']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/administration/listUser.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-list-alt"></i>
+                    <span>#{msg['title.listUser']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/administration/rolePermission.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-lock"></i>
+                    <span>#{msg['title.rolePermission']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/administration/inputValidator.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-tags"></i>
+                    <span>#{msg['title.inputValidator']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/OrganizaciskiEdinici/OrganizaciskiEdinici.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-group"></i>
+                    <span>#{msg['organisationalunits']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/administration/listUserRequestRegistration.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-registered"></i>
+                    <span>#{msg['title.listUserRequestRegistration']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/UsloviNaStatus/Status.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-registered"></i>
+                    <span>#{msg['title.usloviNaStatus']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/VidoviObrasci/VidoviObrasci.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-registered"></i>
+                    <span>#{msg['title.vidoviObrasci']}</span>
+                </p:link>
+            </li>
+            <li class="header">
+                PDF
+            </li>
+            <li>
+                <p:link href="/pages/PDFBaranja/QualificationsPDF.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-connectdevelop"></i>
+                    <span>#{msg['pdfrequests']}</span>
+                </p:link>
+            </li>
+            <li class="header">
+                Lookups
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBC1111/CBC1111.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbc1111']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBC13/CBC13.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbc13']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBFr31/CBFr31.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbfr31']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBGk1/CBGk1.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbgk1']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBGk10r/CBGk10r.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbgk10r']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBGk4r3/CBGk4r3.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbgk4r3']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBGk8/CBGk8.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbgk8']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBGk9i4/CBGk9i4.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbgk9i4']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBN11/CBN11.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbn11']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBC31/CBC31.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbc31']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBC182/CBC182.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbc182']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBC2r4/CBC2r4.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbc2r4']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CB_UCUM_TIME_UNITS/CbUcumTimeUnits.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cb_ucum_time_units']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CB_UCUM_UNITS/CB_UCUM_UNITS.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cb_ucum_units']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBEi31/Cbei31.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbei31']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBC54/CBC54.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbc54']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBD23/CBD23.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbd23']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CBEi7/CBEi7.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['cbei7']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/CB_COUNTRY/CbCountry.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-globe"></i>
+                    <span>#{msg['countries']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/Gradovi/Gradovi.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-building"></i>
+                    <span>#{msg['cities']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/UsloviNaStatus/Status.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-building"></i>
+                    <span>#{msg['statusConditions']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/lookups/VidoviObrasci/VidoviObrasci.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-building"></i>
+                    <span>#{msg['vidoviObrasci']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/pages/user/notifikacii.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-bell"></i>
+                    <span>#{msg['title.notificationQueue']}</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/admintheme/themeSettings.xhtml"
+                        rendered="true"
+                        >
+                    <i class="fa fa-cogs"></i>
+                    <span>Theme settings</span>
+                </p:link>
+            </li>
+        </ul>
+    </f:view>
+</ui:composition>

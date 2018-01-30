@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <f:view locale="#{localeBean.locale}" encoding="UTF-8" contentType="text/html" >
+        <h:head>
+            <h:outputStylesheet library="css" name="styles.css" />
+            <title>#{msg.CaffeFranchise}</title>
+            <link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/x-icon" />
+        </h:head>
+
+
+        <h:body  styleClass="hold-transition login-page">
+            <div class="login-box">
+                <div class="login-logo">
+                    <p:link href="index.xhtml"><b>Caffe</b>Franchise</p:link>
+                </div>
+                <!-- /.login-logo -->
+                <div class="box login-box-body">
+
+                    <h:form id="login">
+                        <!--<p:graphicImage name="images/logo.png" height="100px" />-->
+
+                        <p:outputLabel for="username" value="#{msg['username']}" styleClass="loginLabels"/>
+
+                        <div class="form-group has-feedback">
+                            <p:inputText id="username" value="#{login.username}" placeholder="#{msg['username']}" styleClass="form-control" required="true" requiredMessage="#{msg['requiredMessageUsername']}">
+                                <f:ajax event="blur" render="m_username" />
+                            </p:inputText>
+                            <i class="fa fa-user form-control-feedback" style="margin-top: 10px"></i>
+                            <h:message id="m_username" for="username" style="color: red;"/>
+                        </div>
+
+                        <div class="form-group has-feedback">
+                            <p:outputLabel for="password" value="#{msg['password']}" styleClass="loginLabels" />
+                            <p:inputText type="password" id="password" placeholder="#{msg['password']}" value="#{login.password}" styleClass="form-control"  required="true" requiredMessage="#{msg['requiredMessagePassword']}">
+                                <f:ajax event="blur" render="m_password" />
+                            </p:inputText>
+                            <i class="fa fa-lock form-control-feedback" style="margin-top: 10px"></i>
+                            <h:message id="m_password" for="password" style="color: red;"/>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p:selectBooleanCheckbox id="rememberMe" value="#{login.remember}" style="vertical-align: middle;"/>
+                                <p:outputLabel for="rememberMe" value="#{msg['rememberme']}" styleClass="loginLabels" style="margin-left: 5px; padding-bottom:5px;" />
+                            </div>
+                        </div>
+                        <p:spacer height="10"/>
+
+                        <p:commandButton styleClass="btn btn-success btn-block"
+                                         onclick="showBar()"
+                                         ajax="false"
+                                         value="#{msg['login']}"
+                                         action="#{login.submit}"
+                                         update="@form"
+                                         style="text-shadow:none!important"/>
+                        <br/><br/>
+                        <a href="#{request.contextPath}/pages/login/forgotPassword.xhtml">#{msg['title.forgotPassword']}</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a class="pull-right" href="#{request.contextPath}/pages/login/registration.xhtml">#{msg['title.registration']}</a>
+                        <br/>
+                        <h:messages globalOnly="true" layout="table" style="color: red;"/>
+
+                    </h:form>
+
+                </div>
+            </div>
+
+
+        </h:body>
+    </f:view>
+</html>
+

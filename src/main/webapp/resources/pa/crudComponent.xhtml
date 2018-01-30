@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pa="http://xmlns.jcp.org/jsf/composite/pa">
+
+    <!--    author Nenad Stankovik   -->
+
+    <!-- INTERFACE -->
+    <cc:interface  >
+        <cc:attribute name="controller" required="true" />
+        <cc:attribute name="columnsPage"  required="true" />
+        <cc:attribute name="inputPage"  required="true" />
+        <cc:attribute name="dataTableRendered"  default="true" />
+        <cc:attribute name="backButtonRendered" default="true"  />
+        <cc:attribute name="paginatorPosition" default="bottom" />
+        <cc:attribute name="datatableSource" default="#{cc.attrs.controller.lazyDataModel}"  />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation id="crudComponent" >
+        <h:form id="crudComponentForm">
+            <p:commandButton id="backButton"
+                             styleClass="backButton"
+                             rendered="#{cc.attrs.backButtonRendered==true and not empty cc.attrs.controller.selected}"
+                             immediate="true" value="#{msg['Nazad']}"
+                             actionListener="#{cc.attrs.controller.refresh()}"
+                             update="
+                             #{p:component('newPane')}
+                             #{p:component('backButton')}
+                             #{p:component('crudForm')}"
+                             />
+
+            <p:panel id="newPane" >
+                <p:outputPanel rendered="#{not empty cc.attrs.controller.selected}">
+                    <h:form id="testEditForm">
+                        <ui:include src="#{cc.attrs.inputPage}" />
+
+                        <p:commandButton action="#{cc.attrs.controller.updateSelected()}"
+                                         value="#{msg['update']}"
+                                         update="
+                                         #{p:component('newPane')}
+                                         #{p:component('backButton')}
+                                         #{p:component('crudForm')}"
+                                         />
+
+
+                    </h:form>
+                </p:outputPanel>
+
+            </p:panel>
+            <p:panel id="crudForm">
+                <p:growl id="growl" sticky="false" showDetail="false" />
+                <p:dataTable id="dataTable"
+                             rendered="#{cc.attrs.dataTableRendered}"
+                             widgetVar="tableWidget"
+                             paginatorPosition="#{cc.attrs.paginatorPosition}"
+                             value="#{cc.attrs.datatableSource}"
+                             var="item"
+                             rowKey="#{item.id}"
+                             lazy="true"
+                             rows="15" rowsPerPageTemplate="10,15,20,50">
+                    <ui:include src="#{cc.attrs.columnsPage}" />
+                    <p:column width="80">
+                        <pa:selectDelete controller="#{cc.attrs.controller}"
+                                         transient="true"
+                                         item="#{item}"
+                                         updateSelect="
+                                         #{p:component('newPane')}
+                                         #{p:component('backButton')}
+                                         #{p:component('crudForm')}"
+                                         />
+                    </p:column>
+                    <f:facet name="header">
+                        <p:commandButton
+                            id="saveButton"
+                            value="#{msg['create']}"
+                            class="btn-primary"
+                            transient="true"
+                            action="#{cc.attrs.controller.createNew()}"
+                            update="
+                            #{p:component('newPane')}
+                            #{p:component('crudComponentForm')}
+                            #{p:component('crudForm')}"
+
+                            />
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </cc:implementation>
+</html>
+
+

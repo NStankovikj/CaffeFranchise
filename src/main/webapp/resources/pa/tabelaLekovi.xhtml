@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+
+        <cc:attribute name="datatableSource" required="true" shortDescription="Set the source for the datatable here" />
+        <cc:attribute name="showBtnPreview" default="false" type="java.lang.Boolean" />
+         <cc:attribute name="showPodnositel" default="false" type="java.lang.Boolean" />
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:form id="dataTableForm">
+            <p:dataTable id="dataTable" widgetVar="dataTableWidVar" var="lek" lazy="true"                                 
+                         value="#{cc.attrs.datatableSource}" emptyMessage="#{msg['noRecordsFound']}"
+                         paginator="true" paginatorPosition="bottom" tableStyle="table-layout: auto"
+                         paginatorTemplate="#{msg['table.rowsPerPage']} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} &nbsp;&nbsp; #{msg['table.jumpToPage']} &nbsp;&nbsp; {JumpToPageDropdown}"
+                         currentPageReportTemplate="(#{msg['table.page']}: {currentPage}/{totalPages})" paginatorAlwaysVisible="false"
+                         rowsPerPageTemplate="10,25,50,100" >
+
+                <p:column headerText="#{msg['ImeNaLek']}" sortBy="#{lek.ime_lek_kirilica}" filterBy="#{lek.ime_lek_kirilica}">
+                    <h:outputText value="#{lek.ime_lek_kirilica}" />
+                </p:column>
+                <p:column headerText="#{msg['Jacina']}" sortBy="#{lek.jacina}" filterBy="#{lek.jacina}">
+                    <h:outputText value="#{lek.jacina}" />
+                </p:column>
+                <p:column headerText="#{msg['Pakuvanje']}" sortBy="#{lek.pakuvanje}" filterBy="#{lek.pakuvanje}">
+                    <h:outputText value="#{lek.pakuvanje}" />
+                </p:column>
+                <p:column headerText="#{msg['FarmacevtskaForma']}" sortBy="#{lek.farmacevtskaForma.naziv}" filterBy="#{lek.farmacevtskaForma.naziv}">
+                    <h:outputText value="#{lek.farmacevtskaForma.naziv}" />
+                </p:column>
+                <p:column headerText="#{msg['brojNaResenie']}" sortBy="#{lek.brojNaResenie}" filterBy="#{lek.brojNaResenie}">
+                    <h:outputText value="#{lek.brojNaResenie}" />
+                </p:column>                        
+                <p:column headerText="#{msg['datumVaznost']}" sortBy="#{lek.datumVaznost}">
+                    <h:outputText value="#{lek.datumVaznost}" >
+                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['Podnositel']}" sortBy="#{lek.komintent.naziv}" filterBy="#{lek.komintent.naziv}" rendered="#{cc.attrs.showPodnositel}">
+                    <h:outputText value="#{lek.komintent.naziv}" />
+                </p:column>
+                <p:column rendered="#{cc.attrs.showBtnPreview}">
+                    <p:commandButton value="#{msg['prikaz']}" actionListener="#{baranjeController.baranjeLekoviPanel.setSelectedLek(lek)}"  />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog  id="dlgLek" widgetVar="dlgLek"  closeOnEscape="true" modal="true"  appendTo="@(body)"  height="700"
+                   width="1600" dynamic="true" fitViewport="true" draggable="false" closable="true">
+            <ui:include src="../../pages/baranje/panel/lekPrikaz.xhtml"/>
+        </p:dialog>
+
+    </cc:implementation>
+</html>
